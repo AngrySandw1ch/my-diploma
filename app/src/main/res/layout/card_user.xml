@@ -20,6 +20,7 @@
         android:layout_height="wrap_content"
         android:textStyle="bold"
         android:textSize="@dimen/user_name_size"
+        android:fontFamily="casual"
         android:layout_marginStart="@dimen/user_name_margin_left"
         tools:text="Ivan Ivanovich"
         app:layout_constraintTop_toTopOf="parent"
