@@ -1,14 +1,12 @@
 package ru.netology.mydiploma.dto
 
-import java.time.Instant
-
 data class Post(
     val id: Long,
     val authorId: Long,
     val author: String,
     val authorAvatar: String?,
     val content: String,
-    val published: Instant,
+    val published: String,
     /**
      * Координаты
      */
@@ -39,4 +37,6 @@ data class Post(
      */
     val likedByMe: Boolean = false,
     val attachment: Attachment? = null,
+    var ownedByMe: Boolean = false,
+    var audioPlaying: Boolean = false
 )

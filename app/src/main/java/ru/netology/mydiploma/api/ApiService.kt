@@ -1,6 +1,7 @@
 package ru.netology.mydiploma.api
 
 import okhttp3.OkHttpClient
+import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -8,6 +9,10 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 import ru.netology.mydiploma.auth.AppAuth
 import ru.netology.mydiploma.dto.Post
+import java.time.Duration
+import java.util.concurrent.TimeUnit
+
+const val BASE_URL = "https://app-diploma.herokuapp.com/"
 
 private val loggingInterceptor = HttpLoggingInterceptor().apply {
     level = HttpLoggingInterceptor.Level.BODY
@@ -24,18 +29,16 @@ private val okHttp = OkHttpClient.Builder()
         }
         chain.proceed(chain.request())
     }
+    .connectTimeout(10, TimeUnit.SECONDS)
     .build()
 
 private val retrofit = Retrofit.Builder()
     .addConverterFactory(GsonConverterFactory.create())
-    .baseUrl(ApiService.BASE_URL)
+    .baseUrl(BASE_URL)
     .client(okHttp)
     .build()
 
 interface ApiService {
-    companion object {
-        const val BASE_URL = "https://app-diploma.herokuapp.com/"
-    }
 
     @GET("api/posts")
     suspend fun getPosts(): Response<List<Post>>

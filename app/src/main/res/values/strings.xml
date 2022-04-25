@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">My Diploma</string>
+
+    <!--User menu-->
+    <string name="item_edit">Edit</string>
+    <string name="item_remove">Remove</string>
+
+
 </resources>
