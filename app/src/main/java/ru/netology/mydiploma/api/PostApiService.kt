@@ -1,7 +1,6 @@
 package ru.netology.mydiploma.api
 
 import okhttp3.OkHttpClient
-import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -9,7 +8,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 import ru.netology.mydiploma.auth.AppAuth
 import ru.netology.mydiploma.dto.Post
-import java.time.Duration
 import java.util.concurrent.TimeUnit
 
 const val BASE_URL = "https://app-diploma.herokuapp.com/"
@@ -38,7 +36,7 @@ private val retrofit = Retrofit.Builder()
     .client(okHttp)
     .build()
 
-interface ApiService {
+interface PostApiService {
 
     @GET("api/posts")
     suspend fun getPosts(): Response<List<Post>>
@@ -60,7 +58,7 @@ interface ApiService {
 }
 
 object PostApi {
-    val service: ApiService by lazy {
-        retrofit.create(ApiService::class.java)
+    val service: PostApiService by lazy {
+        retrofit.create(PostApiService::class.java)
     }
 }

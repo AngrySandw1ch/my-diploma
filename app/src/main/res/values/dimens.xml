@@ -3,6 +3,7 @@
     <!--Layout config-->
     <dimen name="ordinary_padding">16dp</dimen>
     <dimen name="ordinary_margin">16dp</dimen>
+    <dimen name="margin_top_auth">200dp</dimen>
 
     <!--User card config-->
     <dimen name="avatar_height">100dp</dimen>
@@ -18,5 +19,9 @@
     <dimen name="author_name_text_size">18sp</dimen>
     <dimen name="video_attachment_height">250dp</dimen>
     <dimen name="play_button_width">48dp</dimen>
+
+    <!--Sign In fragment config-->
+    <dimen name="margin_top_small">5dp</dimen>
+    <dimen name="margin_top_large">20dp</dimen>
 
 </resources>

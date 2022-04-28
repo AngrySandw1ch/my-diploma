@@ -14,7 +14,7 @@
         android:name=".application.MyDiplomaApplication"
         android:usesCleartextTraffic="false">
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.AppActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>

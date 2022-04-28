@@ -83,7 +83,7 @@ class PostRepositoryImpl() : PostRepository {
                 throw Exception(response.code().toString() + response.message())
             }
             if (response.body() == null) {
-                throw Exception(response.code().toString() + response.message())
+                throw Exception("${response.code()} ${response.message()}")
             }
             data.postValue(data.value?.filter {
                 it.id != id
