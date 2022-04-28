@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import ru.netology.mydiploma.R
 import ru.netology.mydiploma.auth.AppAuth
 import ru.netology.mydiploma.databinding.FragmentSignUpBinding
@@ -41,7 +42,7 @@ class SignUpFragment : Fragment() {
         viewModel.data.observe(viewLifecycleOwner) {
             if (it.id != 0L && it.token != null) {
                 AppAuth.getInstance().setAuth(it.id, it.token)
-                //todo navigate to previous position
+                findNavController().navigate(R.id.action_signUpFragment_to_feedFragment)
                 AndroidUtils.hideKeyboard(requireView())
             }
         }

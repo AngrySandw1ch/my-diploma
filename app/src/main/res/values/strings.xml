@@ -19,6 +19,11 @@
     <string name="warning">Please fill in all fields for registration</string>
     <string name="login_error">Incorrect login or password, please try again</string>
 
+    <!--navigation-->
+    <string name="feed_fragment">Feed fragment</string>
+    <string name="signIn_fragment">Sign in fragment</string>
+    <string name="signUp_fragment">Sign Up fragment </string>
+
 
 
 </resources>

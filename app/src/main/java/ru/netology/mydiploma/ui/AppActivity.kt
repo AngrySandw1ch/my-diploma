@@ -6,7 +6,9 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.navigation.findNavController
 import ru.netology.mydiploma.R
+import ru.netology.mydiploma.auth.AppAuth
 import ru.netology.mydiploma.databinding.ActivityAppBinding
 import ru.netology.mydiploma.viewmodel.AuthViewModel
 
@@ -38,9 +40,20 @@ class AppActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId) {
-            R.id.signIn -> {true}
-            R.id.signUp -> {true}
-            R.id.signOut -> {true}
+            R.id.signIn -> {
+                findNavController(R.id.nav_host_fragment)
+                    .navigate(R.id.action_feedFragment_to_signInFragment)
+                true
+            }
+            R.id.signUp -> {
+                findNavController(R.id.nav_host_fragment)
+                    .navigate(R.id.action_signUpFragment_to_feedFragment)
+                true
+            }
+            R.id.signOut -> {
+                AppAuth.getInstance().removeAuth()
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
