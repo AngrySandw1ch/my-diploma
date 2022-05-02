@@ -23,6 +23,7 @@ class SignUpViewModel : ViewModel() {
                 return@launch
             }
             val body = response.body() ?: throw Exception("${response.code()} ${response.message()}")
+            _data.postValue(body)
         } catch (e: Exception) {
             e.printStackTrace()
         }

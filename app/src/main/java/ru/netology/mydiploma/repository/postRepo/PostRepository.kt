@@ -1,4 +1,4 @@
-package ru.netology.mydiploma.repository
+package ru.netology.mydiploma.repository.postRepo
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

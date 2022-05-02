@@ -1,16 +1,8 @@
-package ru.netology.mydiploma.repository
+package ru.netology.mydiploma.repository.postRepo
 
-import android.accounts.NetworkErrorException
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import ru.netology.mydiploma.api.PostApi
 import ru.netology.mydiploma.dto.Post
-import java.time.Instant
-import java.time.LocalDateTime
-import java.time.ZoneOffset
 
 class PostRepositoryImpl() : PostRepository {
     override val data: MutableLiveData<List<Post>> = MutableLiveData()

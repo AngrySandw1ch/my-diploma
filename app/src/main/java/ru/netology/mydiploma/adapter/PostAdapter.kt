@@ -96,10 +96,14 @@ class PostViewHolder(
             when (post.attachment?.type) {
                 AttachmentType.IMAGE -> {
                     imageAttachment.visibility = View.VISIBLE
-                    // Todo download image attachment
+                    Glide.with(imageAttachment)
+                        .load(post.attachment.url)
+                        .timeout(30_000)
+                        .into(imageAttachment)
                 }
                 AttachmentType.VIDEO -> mediaAttachment.visibility = View.VISIBLE
                 AttachmentType.AUDIO -> playButton.visibility = View.VISIBLE
+                null -> false
             }
         }
     }
