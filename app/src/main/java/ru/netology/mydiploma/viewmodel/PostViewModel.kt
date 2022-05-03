@@ -2,14 +2,21 @@ package ru.netology.mydiploma.viewmodel
 
 import androidx.lifecycle.*
 import kotlinx.coroutines.launch
+import ru.netology.mydiploma.auth.AppAuth
 import ru.netology.mydiploma.dto.Post
 import ru.netology.mydiploma.repository.postRepo.PostRepository
 import ru.netology.mydiploma.repository.postRepo.PostRepositoryImpl
 
-class PostViewModel: ViewModel() {
+class PostViewModel : ViewModel() {
     private val repository: PostRepository = PostRepositoryImpl()
-    private val _data: MutableLiveData<List<Post>> get() =  repository.data
-    val data: LiveData<List<Post>>  get() = _data
+    val data: LiveData<List<Post>>
+        get() = AppAuth.getInstance().authLiveData.switchMap { (myId, _) ->
+            repository.data.map { posts ->
+                posts.map {
+                    it.copy(ownedByMe = it.authorId == myId)
+                }
+            }
+        }
 
     init {
         viewModelScope.launch {

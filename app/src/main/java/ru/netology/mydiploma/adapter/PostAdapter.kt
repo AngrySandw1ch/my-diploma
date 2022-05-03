@@ -13,7 +13,7 @@ import ru.netology.mydiploma.R
 import ru.netology.mydiploma.databinding.CardPostBinding
 import ru.netology.mydiploma.dto.Post
 import ru.netology.mydiploma.enumeration.AttachmentType
-import ru.netology.mydiploma.util.PostUtils
+import ru.netology.mydiploma.util.FormatUtils
 
 interface OnInteractionListener {
     fun onLike(post: Post) {}
@@ -44,7 +44,7 @@ class PostViewHolder(
     fun bind(post: Post) {
         with(binding) {
             authorName.text = post.author
-            published.text = PostUtils.formatDate(post.published)
+            published.text = FormatUtils.formatDate(post.published)
             content.text = post.content
             link.text = post.link ?: "www.testlink.com"
             playButton.icon =
@@ -57,7 +57,7 @@ class PostViewHolder(
                     AppCompatResources.getColorStateList(root.context, R.color.red)
                 else
                     AppCompatResources.getColorStateList(root.context, R.color.white)
-            like.text = if(post.likeOwnerIds.isEmpty()) "" else PostUtils.formatNum(post.likeOwnerIds.size)
+            like.text = if(post.likeOwnerIds.isEmpty()) "" else FormatUtils.formatNum(post.likeOwnerIds.size)
 
             like.setOnClickListener {
                 onInteractionListener.onLike(post)

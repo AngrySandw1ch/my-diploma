@@ -1,11 +1,13 @@
 package ru.netology.mydiploma.repository.postRepo
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import ru.netology.mydiploma.api.PostApi
 import ru.netology.mydiploma.dto.Post
 
 class PostRepositoryImpl() : PostRepository {
-    override val data: MutableLiveData<List<Post>> = MutableLiveData()
+    private val _data: MutableLiveData<List<Post>> = MutableLiveData()
+    override val data: LiveData<List<Post>> = _data
 
     override suspend fun getPosts(): List<Post> {
         return try {
@@ -14,7 +16,7 @@ class PostRepositoryImpl() : PostRepository {
                 throw Exception(response.code().toString() + response.message())
             }
             val body = response.body() ?: throw Exception("Body is null")
-            data.postValue(body)
+            _data.postValue(body)
             body
         } catch (e: Exception) {
             e.printStackTrace()
@@ -30,7 +32,7 @@ class PostRepositoryImpl() : PostRepository {
             }
             val body =
                 response.body() ?: throw Exception("${response.code()} ${response.message()}")
-            data.postValue(data.value?.plus(body))
+            _data.postValue(data.value?.plus(body))
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -44,7 +46,7 @@ class PostRepositoryImpl() : PostRepository {
             }
             val body =
                 response.body() ?: throw Exception("${response.code()} ${response.message()}")
-            data.postValue(data.value?.map {
+            _data.postValue(data.value?.map {
                 if (it.id != body.id) it else body
             })
         } catch (e: Exception) {
@@ -60,7 +62,7 @@ class PostRepositoryImpl() : PostRepository {
             }
             val body =
                 response.body() ?: throw Exception("${response.code()} ${response.message()}")
-            data.postValue(data.value?.map {
+            _data.postValue(data.value?.map {
                 if (it.id != body.id) it else body
             })
         } catch (e: Exception) {
@@ -77,7 +79,7 @@ class PostRepositoryImpl() : PostRepository {
             if (response.body() == null) {
                 throw Exception("${response.code()} ${response.message()}")
             }
-            data.postValue(data.value?.filter {
+            _data.postValue(data.value?.filter {
                 it.id != id
             })
         } catch (e: Exception) {

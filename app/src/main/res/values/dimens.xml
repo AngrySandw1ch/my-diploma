@@ -4,6 +4,8 @@
     <dimen name="ordinary_padding">16dp</dimen>
     <dimen name="ordinary_margin">16dp</dimen>
     <dimen name="margin_top_auth">200dp</dimen>
+    <dimen name="margin_top_small">5dp</dimen>
+    <dimen name="margin_top_large">20dp</dimen>
 
     <!--User card config-->
     <dimen name="avatar_height">100dp</dimen>
@@ -20,8 +22,14 @@
     <dimen name="video_attachment_height">250dp</dimen>
     <dimen name="play_button_width">48dp</dimen>
 
-    <!--Sign In fragment config-->
-    <dimen name="margin_top_small">5dp</dimen>
-    <dimen name="margin_top_large">20dp</dimen>
+    <!--Event card config-->
+    <dimen name="event_avatar_height">48dp</dimen>
+    <dimen name="event_avatar_width">48dp</dimen>
+    <dimen name="event_content_textSize">20sp</dimen>
+    <dimen name="margin_top_event">20dp</dimen>
+    <dimen name="button_join_textSize">13sp</dimen>
+    <dimen name="published_textSize">10sp</dimen>
+    <dimen name="event_menu_button_width">20dp</dimen>
+    <dimen name="event_menu_button_height">30dp</dimen>
 
 </resources>

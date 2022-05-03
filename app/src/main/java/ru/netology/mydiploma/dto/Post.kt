@@ -1,5 +1,7 @@
 package ru.netology.mydiploma.dto
 
+
+
 data class Post(
     val id: Long,
     val authorId: Long,

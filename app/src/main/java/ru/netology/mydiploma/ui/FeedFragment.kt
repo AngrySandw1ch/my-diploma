@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.divider.MaterialDividerItemDecoration
 import ru.netology.mydiploma.R
 import ru.netology.mydiploma.adapter.OnInteractionListener
 import ru.netology.mydiploma.adapter.PostAdapter
@@ -37,7 +39,12 @@ class FeedFragment : Fragment() {
             }
         })
 
-        binding.container.adapter = adapter
+        val divider = MaterialDividerItemDecoration(requireContext(), LinearLayoutManager.HORIZONTAL)
+
+        binding.container.apply {
+            this.adapter = adapter
+            this.addItemDecoration(divider)
+        }
 
         viewModel.data.observe(viewLifecycleOwner) {
             adapter.submitList(it)

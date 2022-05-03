@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">My Diploma</string>
 
-    <!--User menu-->
+    <!--User/Event menu-->
     <string name="item_edit">Edit</string>
     <string name="item_remove">Remove</string>
 
@@ -23,6 +23,14 @@
     <string name="feed_fragment">Feed fragment</string>
     <string name="signIn_fragment">Sign in fragment</string>
     <string name="signUp_fragment">Sign Up fragment </string>
+
+    <!--Card Event-->
+    <string name="org">Organizer:</string>
+    <string name="join_button_text">Join</string>
+    <string name="join_button_text_2">Leave</string>
+    <string name="date_is_being_specified">The date is being specified</string>
+    <string name="datetime">Datetime:</string>
+    <string name="hosted_by">Hosted by:</string>
 
 
 </resources>

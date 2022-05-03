@@ -5,7 +5,7 @@ import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 
-object PostUtils {
+object FormatUtils {
     private const val THOU = 1000;
     private const val MILL = 1000000;
 

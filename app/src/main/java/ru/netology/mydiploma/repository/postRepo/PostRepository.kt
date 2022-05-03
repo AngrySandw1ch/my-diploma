@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import ru.netology.mydiploma.dto.Post
 
 interface PostRepository {
-    val data: MutableLiveData<List<Post>>
+    val data: LiveData<List<Post>>
     suspend fun getPosts(): List<Post>
     suspend fun save(post: Post)
     suspend fun likePostById(id: Long)

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_event"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/ordinary_padding">
+
+    <ImageView
+        android:id="@+id/event_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="center"
+        tools:visibility="visible"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@sample/draw" />
+
+    <TextView
+        android:id="@+id/event_content"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_top_large"
+        android:textSize="@dimen/event_content_textSize"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/event_image"
+        tools:text="Выпуск андроид разработчиков" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/event_menu_button"
+        android:layout_width="@dimen/event_menu_button_width"
+        android:layout_height="@dimen/event_menu_button_height"
+        android:background="@android:color/transparent"
+        app:icon="@drawable/ic_more_vert_24"
+        app:iconGravity="textStart"
+        app:iconTint="@color/grey2"
+        app:layout_constraintBottom_toBottomOf="@+id/event_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/event_content" />
+
+    <TextView
+        android:id="@+id/event_host"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_top_small"
+        android:text="@string/hosted_by"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/event_content" />
+
+    <TextView
+        android:id="@+id/event_author"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/blue"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/event_host"
+        app:layout_constraintTop_toTopOf="@id/event_host"
+        tools:text="@sample/posts.json/data/author" />
+
+    <TextView
+        android:id="@+id/event_published"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginBottom="10dp"
+        android:textSize="@dimen/published_textSize"
+        app:layout_constraintBottom_toTopOf="@id/event_top_barrier"
+        app:layout_constraintStart_toEndOf="@id/event_host"
+        app:layout_constraintTop_toBottomOf="@id/event_author"
+        tools:text="@sample/posts.json/data/published" />
+
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/event_top_barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="event_image,event_content,event_host,event_author,event_published" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/event_like_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@android:color/transparent"
+        android:clickable="true"
+        android:textColor="@color/grey2"
+        app:icon="@drawable/ic_favorite_24"
+        app:iconTint="@color/red"
+        app:layout_constraintBottom_toTopOf="@id/event_bottom_barrier"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/event_top_barrier"
+        tools:text="@sample/posts.json/data/count" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/event_join_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/grey"
+        android:clickable="true"
+        android:text="@string/join_button_text"
+        android:textColor="@color/grey2"
+        android:textSize="@dimen/button_join_textSize"
+        app:icon="@drawable/ic_check_24"
+        app:iconTint="@color/grey2"
+        app:layout_constraintBottom_toBottomOf="@id/event_like_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/event_like_button" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/event_bottom_barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="event_like_button,event_join_button" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/event_datetime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@android:color/transparent"
+        android:textColor="@color/grey2"
+        android:textSize="13sp"
+        app:icon="@drawable/ic__access_time_24"
+        app:iconTint="@color/grey"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/event_bottom_barrier"
+        tools:text="@sample/posts.json/data/published" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/event_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@android:color/transparent"
+        android:textColor="@color/grey2"
+        app:icon="@drawable/ic_public_24"
+        app:iconTint="@color/grey"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/event_datetime"
+        tools:text="@sample/posts.json/data/type" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
