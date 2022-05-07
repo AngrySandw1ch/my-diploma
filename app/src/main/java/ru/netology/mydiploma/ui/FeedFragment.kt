@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.divider.MaterialDividerItemDecoration
@@ -48,6 +49,17 @@ class FeedFragment : Fragment() {
 
         viewModel.data.observe(viewLifecycleOwner) {
             adapter.submitList(it)
+        }
+
+        viewModel.dataState.observe(viewLifecycleOwner) {
+            with(binding) {
+                swipeRefresh.isRefreshing = it.refreshing
+                progress.isVisible = it.loading
+            }
+        }
+
+        binding.swipeRefresh.setOnRefreshListener {
+            viewModel.refreshPosts()
         }
 
         binding.fab.setOnClickListener {

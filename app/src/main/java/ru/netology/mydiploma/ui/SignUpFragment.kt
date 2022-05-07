@@ -1,5 +1,6 @@
 package ru.netology.mydiploma.ui
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -17,6 +18,19 @@ import ru.netology.mydiploma.viewmodel.SignUpViewModel
 class SignUpFragment : Fragment() {
     lateinit var binding: FragmentSignUpBinding
     private val viewModel: SignUpViewModel by viewModels()
+    private var appActivity: AppActivity? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        appActivity = context as? AppActivity
+        appActivity?.supportActionBar?.hide()
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        appActivity?.supportActionBar?.show()
+        appActivity = null
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

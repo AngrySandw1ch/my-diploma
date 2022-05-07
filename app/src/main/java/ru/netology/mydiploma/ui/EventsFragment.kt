@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import ru.netology.mydiploma.R
@@ -49,7 +50,11 @@ class EventsFragment : Fragment() {
         val divider = MaterialDividerItemDecoration(
             requireContext(),
             MaterialDividerItemDecoration.HORIZONTAL
-        )
+        ).apply {
+            dividerInsetStart = 16
+            dividerInsetEnd = 16
+        }
+
         binding.eventContainer.apply {
             this.adapter = adapter
             this.addItemDecoration(divider)
@@ -57,6 +62,17 @@ class EventsFragment : Fragment() {
 
         viewModel.data.observe(viewLifecycleOwner) { events ->
             adapter.submitList(events)
+        }
+
+        viewModel.dataState.observe(viewLifecycleOwner) {
+            with(binding) {
+                swipeRefreshEvents.isRefreshing = it.refreshing
+                progressEvents.isVisible = it.loading
+            }
+        }
+
+        binding.swipeRefreshEvents.setOnRefreshListener {
+            viewModel.refreshEvents()
         }
 
         return binding.root

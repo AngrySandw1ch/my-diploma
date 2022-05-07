@@ -4,9 +4,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import ru.netology.mydiploma.R
 import ru.netology.mydiploma.auth.AppAuth
 import ru.netology.mydiploma.databinding.ActivityAppBinding
@@ -26,6 +30,26 @@ class AppActivity : AppCompatActivity() {
         viewModel.data.observe(this) {
             invalidateOptionsMenu()
         }
+        val navView = binding.bottomNav
+        val navController = findNavController(R.id.nav_host_fragment)
+
+        navView.setOnItemSelectedListener {
+            when(it.itemId) {
+                R.id.page_feed -> {
+                    navController.navigate(R.id.feedFragment)
+                    true
+                }
+                R.id.page_users -> {
+                    navController.navigate(R.id.usersFragment)
+                    true
+                }
+                R.id.page_events -> {
+                    navController.navigate(R.id.eventsFragment)
+                    true
+                }
+                else -> false
+            }
+        }
 
     }
 
@@ -41,13 +65,13 @@ class AppActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId) {
             R.id.signIn -> {
-                findNavController(R.id.nav_host_fragment)
-                    .navigate(R.id.action_feedFragment_to_signInFragment)
+               findNavController(R.id.nav_host_fragment)
+                    .navigate(R.id.signInFragment)
                 true
             }
             R.id.signUp -> {
-                findNavController(R.id.nav_host_fragment)
-                    .navigate(R.id.action_signUpFragment_to_feedFragment)
+               findNavController(R.id.nav_host_fragment)
+                    .navigate(R.id.signUpFragment)
                 true
             }
             R.id.signOut -> {

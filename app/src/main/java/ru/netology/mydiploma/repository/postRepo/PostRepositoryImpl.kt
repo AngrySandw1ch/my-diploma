@@ -4,23 +4,27 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import ru.netology.mydiploma.api.PostApi
 import ru.netology.mydiploma.dto.Post
+import ru.netology.mydiploma.error.ApiError
+import ru.netology.mydiploma.error.NetworkError
+import ru.netology.mydiploma.error.UnknownError
+import java.io.IOException
 
 class PostRepositoryImpl() : PostRepository {
     private val _data: MutableLiveData<List<Post>> = MutableLiveData()
     override val data: LiveData<List<Post>> = _data
 
-    override suspend fun getPosts(): List<Post> {
+    override suspend fun getPosts() {
         return try {
             val response = PostApi.service.getPosts()
             if (!response.isSuccessful) {
-                throw Exception(response.code().toString() + response.message())
+                throw ApiError(response.code(), response.message())
             }
-            val body = response.body() ?: throw Exception("Body is null")
+            val body = response.body() ?: throw ApiError(response.code(), response.message())
             _data.postValue(body)
-            body
+        } catch (e: IOException) {
+            throw NetworkError
         } catch (e: Exception) {
-            e.printStackTrace()
-            listOf()
+            throw UnknownError
         }
     }
 
@@ -28,13 +32,15 @@ class PostRepositoryImpl() : PostRepository {
         try {
             val response = PostApi.service.save(post)
             if (!response.isSuccessful) {
-                throw Exception(response.code().toString() + response.message())
+                throw ApiError(response.code(), response.message())
             }
             val body =
-                response.body() ?: throw Exception("${response.code()} ${response.message()}")
+                response.body() ?: throw ApiError(response.code(), response.message())
             _data.postValue(data.value?.plus(body))
+        } catch (e: IOException) {
+            throw NetworkError
         } catch (e: Exception) {
-            e.printStackTrace()
+            throw UnknownError
         }
     }
 
@@ -42,15 +48,17 @@ class PostRepositoryImpl() : PostRepository {
         try {
             val response = PostApi.service.likePostById(id)
             if (!response.isSuccessful) {
-                throw Exception(response.code().toString() + response.message())
+                throw ApiError(response.code(), response.message())
             }
             val body =
-                response.body() ?: throw Exception("${response.code()} ${response.message()}")
+                response.body() ?: throw ApiError(response.code(), response.message())
             _data.postValue(data.value?.map {
                 if (it.id != body.id) it else body
             })
+        } catch (e: IOException) {
+            throw NetworkError
         } catch (e: Exception) {
-            e.printStackTrace()
+            throw UnknownError
         }
     }
 
@@ -58,15 +66,17 @@ class PostRepositoryImpl() : PostRepository {
         try {
             val response = PostApi.service.dislikePostById(id)
             if (!response.isSuccessful) {
-                throw Exception(response.code().toString() + response.message())
+                throw ApiError(response.code(), response.message())
             }
             val body =
-                response.body() ?: throw Exception("${response.code()} ${response.message()}")
+                response.body() ?: throw ApiError(response.code(), response.message())
             _data.postValue(data.value?.map {
                 if (it.id != body.id) it else body
             })
+        } catch (e: IOException) {
+            throw NetworkError
         } catch (e: Exception) {
-            e.printStackTrace()
+            throw UnknownError
         }
     }
 
@@ -74,16 +84,18 @@ class PostRepositoryImpl() : PostRepository {
         try {
             val response = PostApi.service.removePostById(id)
             if (!response.isSuccessful) {
-                throw Exception(response.code().toString() + response.message())
+                throw ApiError(response.code(), response.message())
             }
             if (response.body() == null) {
-                throw Exception("${response.code()} ${response.message()}")
+                throw ApiError(response.code(), response.message())
             }
             _data.postValue(data.value?.filter {
                 it.id != id
             })
+        } catch (e: IOException) {
+            throw NetworkError
         } catch (e: Exception) {
-            e.printStackTrace()
+            throw UnknownError
         }
     }
 }

@@ -10,51 +10,65 @@
         android:name="ru.netology.mydiploma.ui.FeedFragment"
         android:label="@string/feed_fragment"
         tools:layout="@layout/fragment_feed">
-        <action
-            android:id="@+id/action_feedFragment_to_signInFragment"
-            app:destination="@id/signInFragment"
-            app:enterAnim="@android:anim/fade_in"
-            app:exitAnim="@android:anim/fade_out"
-            app:popEnterAnim="@android:anim/fade_in"
-            app:popExitAnim="@android:anim/fade_out" />
-        <action
-            android:id="@+id/action_feedFragment_to_signUpFragment"
-            app:destination="@id/signUpFragment"
-            app:enterAnim="@android:anim/fade_in"
-            app:exitAnim="@android:anim/fade_out"
-            app:popEnterAnim="@android:anim/fade_in"
-            app:popExitAnim="@android:anim/fade_out" />
-    </fragment>
+        <!-- <action
+             android:id="@+id/action_feedFragment_to_signInFragment"
+             app:destination="@id/signInFragment"
+             app:enterAnim="@android:anim/fade_in"
+             app:exitAnim="@android:anim/fade_out"
+             app:popEnterAnim="@android:anim/fade_in"
+             app:popExitAnim="@android:anim/fade_out" />
+         <action
+             android:id="@+id/action_feedFragment_to_signUpFragment"
+             app:destination="@id/signUpFragment"
+             app:enterAnim="@android:anim/fade_in"
+             app:exitAnim="@android:anim/fade_out"
+             app:popEnterAnim="@android:anim/fade_in"
+             app:popExitAnim="@android:anim/fade_out" /> -->
+     </fragment>
 
-    <fragment
-        android:id="@+id/signInFragment"
-        android:name="ru.netology.mydiploma.ui.SignInFragment"
-        android:label="@string/signIn_fragment"
-        tools:layout="@layout/fragment_sign_in">
-        <action
-            android:id="@+id/action_signInFragment_to_feedFragment"
-            app:destination="@id/feedFragment"
-            app:enterAnim="@android:anim/fade_in"
-            app:exitAnim="@android:anim/fade_out"
-            app:popEnterAnim="@android:anim/fade_in"
-            app:popExitAnim="@android:anim/fade_out" />
+     <fragment
+         android:id="@+id/signInFragment"
+         android:name="ru.netology.mydiploma.ui.SignInFragment"
+         android:label="@string/signIn_fragment"
+         tools:layout="@layout/fragment_sign_in">
+         <action
+             android:id="@+id/action_signInFragment_to_feedFragment"
+             app:destination="@id/feedFragment"
+             app:enterAnim="@android:anim/fade_in"
+             app:exitAnim="@android:anim/fade_out"
+             app:popEnterAnim="@android:anim/fade_in"
+             app:popExitAnim="@android:anim/fade_out" />
 
-    </fragment>
+     </fragment>
 
-    <fragment
-        android:id="@+id/signUpFragment"
-        android:name="ru.netology.mydiploma.ui.SignUpFragment"
-        android:label="@string/signUp_fragment"
-        tools:layout="@layout/fragment_sign_up">
-        <action
-            android:id="@+id/action_signUpFragment_to_feedFragment"
-            app:destination="@id/feedFragment"
-            app:enterAnim="@android:anim/fade_in"
-            app:exitAnim="@android:anim/fade_out"
-            app:popEnterAnim="@android:anim/fade_in"
-            app:popExitAnim="@android:anim/fade_out" />
+     <fragment
+         android:id="@+id/signUpFragment"
+         android:name="ru.netology.mydiploma.ui.SignUpFragment"
+         android:label="@string/signUp_fragment"
+         tools:layout="@layout/fragment_sign_up">
+         <action
+             android:id="@+id/action_signUpFragment_to_feedFragment"
+             app:destination="@id/feedFragment"
+             app:enterAnim="@android:anim/fade_in"
+             app:exitAnim="@android:anim/fade_out"
+             app:popEnterAnim="@android:anim/fade_in"
+             app:popExitAnim="@android:anim/fade_out" />
 
-    </fragment>
+     </fragment>
+
+     <fragment
+         android:id="@+id/usersFragment"
+         android:name="ru.netology.mydiploma.ui.UsersFragment"
+         tools:layout="@layout/fragment_users"
+         android:label="@string/users_fragment">
+     </fragment>
+
+     <fragment
+         android:id="@+id/eventsFragment"
+         android:name="ru.netology.mydiploma.ui.EventsFragment"
+         tools:layout="@layout/fragment_events"
+         android:label="@string/events_fragment">
+     </fragment>
 
 
-</navigation>
+ </navigation>

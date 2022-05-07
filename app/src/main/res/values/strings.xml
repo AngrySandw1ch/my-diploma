@@ -10,6 +10,11 @@
     <string name="item_signUp">Sign Up</string>
     <string name="item_signOut">Sign Out</string>
 
+    <!--Bottom menu-->
+    <string name="item_feed">Feed</string>
+    <string name="item_users">Users</string>
+    <string name="item_events">Events</string>
+
     <!--Sign in fragment-->
     <string name="user_name">User name</string>
     <string name="login">Login</string>
@@ -23,6 +28,8 @@
     <string name="feed_fragment">Feed fragment</string>
     <string name="signIn_fragment">Sign in fragment</string>
     <string name="signUp_fragment">Sign Up fragment </string>
+    <string name="users_fragment">Users fragment</string>
+    <string name="events_fragment">Events fragment</string>
 
     <!--Card Event-->
     <string name="org">Organizer:</string>

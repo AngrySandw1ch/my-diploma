@@ -1,5 +1,6 @@
 package ru.netology.mydiploma.ui
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,21 +12,34 @@ import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_sign_in.*
 import ru.netology.mydiploma.R
 import ru.netology.mydiploma.auth.AppAuth
-import ru.netology.mydiploma.auth.AuthState
 import ru.netology.mydiploma.databinding.FragmentSignInBinding
 import ru.netology.mydiploma.util.AndroidUtils
-import ru.netology.mydiploma.viewmodel.AuthViewModel
 import ru.netology.mydiploma.viewmodel.SignInViewModel
 
 class SignInFragment : Fragment() {
     lateinit var binding: FragmentSignInBinding
     private val viewModel: SignInViewModel by viewModels()
+    private var appActivity: AppActivity? = null
+
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        appActivity = context as? AppActivity
+        appActivity?.supportActionBar?.hide()
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        appActivity?.supportActionBar?.show()
+        appActivity = null
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentSignInBinding.inflate(inflater, container, false)
+
 
         binding.newUserLogin.requestFocus()
 
