@@ -9,6 +9,17 @@ import ru.netology.mydiploma.repository.postRepo.PostRepository
 import ru.netology.mydiploma.repository.postRepo.PostRepositoryImpl
 import java.lang.Exception
 
+val empty = Post(
+    0,
+    0,
+    "",
+    null,
+    "",
+    "",
+    null,
+    null
+)
+
 class PostViewModel : ViewModel() {
     private val repository: PostRepository = PostRepositoryImpl()
     val data: LiveData<List<Post>>
@@ -22,6 +33,8 @@ class PostViewModel : ViewModel() {
 
     private val _dataState: MutableLiveData<ModelState> = MutableLiveData()
     val dataState: LiveData<ModelState> get() = _dataState
+
+    val edited = MutableLiveData(empty)
 
     init {
         viewModelScope.launch {
@@ -37,7 +50,6 @@ class PostViewModel : ViewModel() {
     }
 
 
-
     fun refreshPosts() = viewModelScope.launch {
         try {
             _dataState.postValue(ModelState(refreshing = true))
@@ -48,15 +60,6 @@ class PostViewModel : ViewModel() {
         }
     }
 
-    fun createPost(post: Post) = viewModelScope.launch {
-        try {
-            _dataState.postValue(ModelState(loading = true))
-            repository.save(post)
-            _dataState.postValue(ModelState())
-        } catch (e: Exception) {
-            _dataState.postValue(ModelState(error = true))
-        }
-    }
 
     fun likePostById(post: Post) = viewModelScope.launch {
         try {
@@ -79,7 +82,7 @@ class PostViewModel : ViewModel() {
         }
     }
 
-    fun removePostByID(post: Post) = viewModelScope.launch {
+    fun removePostById(post: Post) = viewModelScope.launch {
         try {
             _dataState.postValue(ModelState(loading = true))
             repository.removePostById(post.id)
@@ -87,6 +90,29 @@ class PostViewModel : ViewModel() {
         } catch (e: Exception) {
             _dataState.postValue(ModelState(error = true))
         }
+    }
 
+    fun edit(post: Post) {
+        edited.value = post
+    }
+
+    fun changeContent(content: String) {
+        if (content.trim() == edited.value?.content) {
+            return
+        }
+        edited.value = edited.value?.copy(content = content)
+    }
+
+    fun save() = viewModelScope.launch {
+        try {
+            _dataState.postValue(ModelState(loading = true))
+            edited.value?.let {
+                repository.save(it)
+            }
+            _dataState.postValue(ModelState())
+        } catch (e: Exception) {
+            _dataState.postValue(ModelState(error = true))
+        }
+        edited.postValue(empty)
     }
 }

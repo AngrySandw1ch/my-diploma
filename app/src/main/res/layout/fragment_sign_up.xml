@@ -28,6 +28,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/margin_top_small"
         android:ems="10"
+        android:inputType="textPassword"
         android:hint="@string/password"
         android:textColorLink="@color/blue"
         android:textCursorDrawable="@color/blue" />

@@ -42,13 +42,13 @@ class SignUpFragment : Fragment() {
         binding.SignUpButton.setOnClickListener {
             with(binding) {
                 if (
-                    userLogin.toString().isBlank() ||
-                    userPassword.toString().isBlank()
+                    userLogin.text.toString().isBlank() ||
+                    userPassword.text.toString().isBlank()
                 ) {
                     Toast.makeText(requireContext(), R.string.warning, Toast.LENGTH_SHORT).show()
                     return@setOnClickListener
                 }
-                viewModel.signUp(userLogin.toString(), userPassword.toString(), requireContext())
+                viewModel.signUp(userLogin.text.toString(), userPassword.text.toString(), requireContext())
             }
 
         }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--Layout config-->
-    <dimen name="ordinary_padding">16dp</dimen>
+    <dimen name="ordinary_padding">4dp</dimen>
     <dimen name="ordinary_margin">16dp</dimen>
     <dimen name="margin_top_auth">200dp</dimen>
     <dimen name="margin_top_small">5dp</dimen>

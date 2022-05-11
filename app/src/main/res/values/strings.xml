@@ -25,11 +25,13 @@
     <string name="login_error">Incorrect login or password, please try again</string>
 
     <!--navigation-->
-    <string name="feed_fragment">Feed fragment</string>
-    <string name="signIn_fragment">Sign in fragment</string>
-    <string name="signUp_fragment">Sign Up fragment </string>
-    <string name="users_fragment">Users fragment</string>
-    <string name="events_fragment">Events fragment</string>
+    <string name="feed_fragment">Feed</string>
+    <string name="signIn_fragment">Sign in</string>
+    <string name="signUp_fragment">Sign Up</string>
+    <string name="users_fragment">Users</string>
+    <string name="events_fragment">Events</string>
+    <string name="edit_post_fragment">Edit post</string>
+    <string name="new_post_fragment">New post</string>
 
     <!--Card Event-->
     <string name="org">Organizer:</string>
@@ -38,6 +40,5 @@
     <string name="date_is_being_specified">The date is being specified</string>
     <string name="datetime">Datetime:</string>
     <string name="hosted_by">Hosted by:</string>
-
 
 </resources>

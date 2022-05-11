@@ -36,7 +36,13 @@ class PostRepositoryImpl() : PostRepository {
             }
             val body =
                 response.body() ?: throw ApiError(response.code(), response.message())
-            _data.postValue(data.value?.plus(body))
+            _data.postValue(data.value?.map {
+                if (it.id == body.id) {
+                    body
+                } else {
+                    it
+                }
+            })
         } catch (e: IOException) {
             throw NetworkError
         } catch (e: Exception) {

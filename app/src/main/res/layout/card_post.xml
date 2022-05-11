@@ -157,10 +157,9 @@
         android:background="@android:color/transparent"
         android:textColor="@color/dark"
         app:icon="@drawable/ic_favorite_24"
-        app:iconTint="@color/red"
+        app:iconTint="@color/grey2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/bottom_barrier"
-        app:strokeColor="@color/dark"
         tools:text="@sample/posts.json/data/count" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

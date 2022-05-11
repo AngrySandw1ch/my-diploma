@@ -56,7 +56,7 @@ class PostViewHolder(
                 if (post.likedByMe)
                     AppCompatResources.getColorStateList(root.context, R.color.red)
                 else
-                    AppCompatResources.getColorStateList(root.context, R.color.white)
+                    AppCompatResources.getColorStateList(root.context, R.color.grey2)
             like.text = if(post.likeOwnerIds.isEmpty()) "" else FormatUtils.formatNum(post.likeOwnerIds.size)
 
             like.setOnClickListener {

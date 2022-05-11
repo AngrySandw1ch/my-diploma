@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="@dimen/ordinary_padding"
+    tools:context=".ui.EditPostFragment">
+
+    <EditText
+        android:id="@+id/post_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="start|top"
+        android:inputType="textMultiLine"
+        android:background="@android:color/transparent"/>
+
+
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/bottomAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:backgroundTint="@color/grey"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/apply_changes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_anchor="@id/bottomAppBar"
+        android:backgroundTint="@color/blue"
+        android:src="@drawable/ic_check_24" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/deny_changes"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:background="@android:color/transparent"
+        android:layout_gravity="top|end"
+        app:iconGravity="textStart"
+        app:iconTint="@color/grey2"
+        app:icon="@drawable/ic_close_24"/>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

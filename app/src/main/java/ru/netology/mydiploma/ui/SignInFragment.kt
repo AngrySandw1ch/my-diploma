@@ -46,17 +46,17 @@ class SignInFragment : Fragment() {
         binding.signInButton.setOnClickListener {
             with(binding) {
                 if (
-                    newUserLogin.toString().isBlank() ||
-                    newUserPassword.toString().isBlank() ||
-                    newUserName.toString().isBlank()
+                    newUserLogin.text.toString().isBlank() ||
+                    newUserPassword.text.toString().isBlank() ||
+                    newUserName.text.toString().isBlank()
                 ) {
                     Toast.makeText(requireContext(), R.string.warning, Toast.LENGTH_LONG).show()
                     return@setOnClickListener
                 }
                 viewModel.signIn(
-                    newUserLogin.toString(),
-                    newUserPassword.toString(),
-                    newUserName.toString()
+                    newUserLogin.text.toString(),
+                    newUserPassword.text.toString(),
+                    newUserName.text.toString()
                 )
             }
         }
