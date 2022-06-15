@@ -24,7 +24,7 @@
         android:id="@+id/event_content"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_top_large"
+        android:layout_marginTop="@dimen/margin_vertical_large"
         android:textSize="@dimen/event_content_textSize"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,7 +47,7 @@
         android:id="@+id/event_host"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_top_small"
+        android:layout_marginTop="@dimen/margin_vertical_small"
         android:text="@string/hosted_by"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/event_content" />

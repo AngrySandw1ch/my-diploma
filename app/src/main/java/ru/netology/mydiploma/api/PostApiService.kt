@@ -1,5 +1,6 @@
 package ru.netology.mydiploma.api
 
+import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
@@ -7,6 +8,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 import ru.netology.mydiploma.auth.AppAuth
+import ru.netology.mydiploma.dto.Media
 import ru.netology.mydiploma.dto.Post
 import java.util.concurrent.TimeUnit
 
@@ -55,6 +57,12 @@ interface PostApiService {
 
     @DELETE("api/posts/{postId}")
     suspend fun removePostById(@Path("postId") postId: Long): Response<Unit>
+
+    @Multipart
+    @POST("api/media")
+    suspend fun upload(@Part media: MultipartBody.Part): Response<Media>
+
+
 }
 
 object PostApi {

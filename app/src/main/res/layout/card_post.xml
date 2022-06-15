@@ -26,7 +26,6 @@
         android:layout_marginStart="@dimen/ordinary_margin"
         android:layout_marginEnd="@dimen/ordinary_margin"
         android:ellipsize="end"
-        android:fontFamily="casual"
         android:maxLines="1"
         android:textSize="@dimen/author_name_text_size"
         android:textStyle="bold"
@@ -161,5 +160,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/bottom_barrier"
         tools:text="@sample/posts.json/data/count" />
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/post_divider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/like"
+        android:layout_marginTop="5dp"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

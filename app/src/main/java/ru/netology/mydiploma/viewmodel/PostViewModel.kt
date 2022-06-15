@@ -1,13 +1,18 @@
 package ru.netology.mydiploma.viewmodel
 
+import android.net.Uri
 import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 import ru.netology.mydiploma.auth.AppAuth
+import ru.netology.mydiploma.dto.MediaUpload
 import ru.netology.mydiploma.dto.Post
 import ru.netology.mydiploma.model.ModelState
+import ru.netology.mydiploma.model.PhotoModel
 import ru.netology.mydiploma.repository.postRepo.PostRepository
 import ru.netology.mydiploma.repository.postRepo.PostRepositoryImpl
+import java.io.File
 import java.lang.Exception
+import java.time.Instant
 
 val empty = Post(
     0,
@@ -34,7 +39,12 @@ class PostViewModel : ViewModel() {
     private val _dataState: MutableLiveData<ModelState> = MutableLiveData()
     val dataState: LiveData<ModelState> get() = _dataState
 
-    val edited = MutableLiveData(empty)
+    private val noPhoto = PhotoModel()
+
+    private val _photo: MutableLiveData<PhotoModel> = MutableLiveData(noPhoto)
+    val photo: LiveData<PhotoModel> get() = _photo
+
+    private val edited = MutableLiveData(empty)
 
     init {
         viewModelScope.launch {
@@ -106,13 +116,26 @@ class PostViewModel : ViewModel() {
     fun save() = viewModelScope.launch {
         try {
             _dataState.postValue(ModelState(loading = true))
-            edited.value?.let {
-                repository.save(it)
+
+            edited.value?.let { post ->
+                when(_photo.value) {
+                    noPhoto -> repository.save(post)
+                    else -> _photo.value?.file?.let { file ->
+                        repository.saveWithAttachment(post, MediaUpload(file))
+                    }
+
+                }
+                repository.save(post.copy(published = Instant.now().toString()))
             }
             _dataState.postValue(ModelState())
         } catch (e: Exception) {
             _dataState.postValue(ModelState(error = true))
         }
         edited.postValue(empty)
+        _photo.postValue(noPhoto)
+    }
+
+    fun changePhoto(uri: Uri?, file: File?) {
+        _photo.value = PhotoModel(uri, file)
     }
 }

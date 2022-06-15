@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--Layout config-->
-    <dimen name="ordinary_padding">4dp</dimen>
+    <dimen name="ordinary_padding">16dp</dimen>
     <dimen name="ordinary_margin">16dp</dimen>
     <dimen name="margin_top_auth">200dp</dimen>
-    <dimen name="margin_top_small">5dp</dimen>
-    <dimen name="margin_top_large">20dp</dimen>
+    <dimen name="margin_vertical_small">5dp</dimen>
+    <dimen name="margin_vertical_large">20dp</dimen>
+    <dimen name="margin_horizontal_small">5dp</dimen>
+    <dimen name="margin_horizontal_large">20dp</dimen>
     <dimen name="bottomNav_height">55dp</dimen>
 
     <!--User card config-->
@@ -32,5 +34,8 @@
     <dimen name="published_textSize">10sp</dimen>
     <dimen name="event_menu_button_width">20dp</dimen>
     <dimen name="event_menu_button_height">30dp</dimen>
+
+    <!--Event card config-->
+    <dimen name="horizontal_margin_buttons">33dp</dimen>
 
 </resources>

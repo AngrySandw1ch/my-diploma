@@ -41,4 +41,11 @@
     <string name="datetime">Datetime:</string>
     <string name="hosted_by">Hosted by:</string>
 
+    <!--New Post Fragment-->
+    <string name="clear_all_button_text">Clear all</string>
+    <string name="new_post_content_hint">Enter something</string>
+    <string name="pick_photo_button_text">Pick photo</string>
+    <string name="take_photo_button_text">Take photo</string>
+    <string name="save_newPost_button">Save</string>
+
 </resources>

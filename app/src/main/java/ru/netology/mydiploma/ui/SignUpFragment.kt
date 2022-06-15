@@ -13,6 +13,7 @@ import ru.netology.mydiploma.R
 import ru.netology.mydiploma.auth.AppAuth
 import ru.netology.mydiploma.databinding.FragmentSignUpBinding
 import ru.netology.mydiploma.util.AndroidUtils
+import ru.netology.mydiploma.util.showToast
 import ru.netology.mydiploma.viewmodel.SignUpViewModel
 
 class SignUpFragment : Fragment() {
@@ -45,7 +46,7 @@ class SignUpFragment : Fragment() {
                     userLogin.text.toString().isBlank() ||
                     userPassword.text.toString().isBlank()
                 ) {
-                    Toast.makeText(requireContext(), R.string.warning, Toast.LENGTH_SHORT).show()
+                    showToast(getString(R.string.warning))
                     return@setOnClickListener
                 }
                 viewModel.signUp(userLogin.text.toString(), userPassword.text.toString(), requireContext())
@@ -56,6 +57,7 @@ class SignUpFragment : Fragment() {
         viewModel.data.observe(viewLifecycleOwner) {
             if (it.id != 0L && it.token != null) {
                 AppAuth.getInstance().setAuth(it.id, it.token)
+                appActivity?.supportActionBar?.show()
                 findNavController().navigate(R.id.action_signUpFragment_to_feedFragment)
                 AndroidUtils.hideKeyboard(requireView())
             }
