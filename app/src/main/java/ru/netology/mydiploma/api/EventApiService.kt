@@ -1,5 +1,6 @@
 package ru.netology.mydiploma.api
 
+import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
@@ -8,6 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 import ru.netology.mydiploma.auth.AppAuth
 import ru.netology.mydiploma.dto.Event
+import ru.netology.mydiploma.dto.Media
 import java.util.concurrent.TimeUnit
 
 private val loggingInterceptor = HttpLoggingInterceptor().apply {
@@ -29,9 +31,9 @@ private val okHttpClient = OkHttpClient.Builder()
     .build()
 
 private val retrofit = Retrofit.Builder()
-    .client(okHttpClient)
-    .baseUrl(BASE_URL)
     .addConverterFactory(GsonConverterFactory.create())
+    .baseUrl(BASE_URL)
+    .client(okHttpClient)
     .build()
 
 
@@ -51,14 +53,20 @@ interface EventApiService {
     @DELETE("api/events/{eventId}/likes")
     suspend fun dislikeEventById(@Path("eventId") eventId: Long): Response<Event>
 
-    @POST("api/events/{{eventId}}/participants")
+    @POST("api/events/{eventId}/participants")
     suspend fun joinEventById(@Path("eventId") eventId: Long): Response<Event>
 
-    @POST("api/events/{{eventId}}/participants")
+    @DELETE("api/events/{eventId}/participants")
     suspend fun leaveEventById(@Path("eventId") eventId: Long): Response<Event>
 
     @DELETE("api/events/{eventId}")
     suspend fun removeEventById(@Path("eventId") eventId: Long): Response<Unit>
+
+    @Multipart
+    @POST("api/media")
+    suspend fun upload(@Part media: MultipartBody.Part): Response<Media>
+
+
 
 }
 

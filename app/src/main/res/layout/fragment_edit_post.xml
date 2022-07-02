@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="@dimen/ordinary_padding"
-    tools:context=".ui.EditPostFragment">
+    tools:context=".ui.post.EditPostFragment">
 
     <EditText
         android:id="@+id/post_content"

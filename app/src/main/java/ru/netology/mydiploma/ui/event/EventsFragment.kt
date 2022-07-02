@@ -1,4 +1,4 @@
-package ru.netology.mydiploma.ui
+package ru.netology.mydiploma.ui.event
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,18 +7,24 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import ru.netology.mydiploma.R
 import ru.netology.mydiploma.adapter.EventAdapter
 import ru.netology.mydiploma.adapter.OnEventInteractionListener
-import ru.netology.mydiploma.databinding.CardEventBinding
 import ru.netology.mydiploma.databinding.FragmentEventsBinding
 import ru.netology.mydiploma.dto.Event
+import ru.netology.mydiploma.viewmodel.AuthViewModel
 import ru.netology.mydiploma.viewmodel.EventViewModel
 
 class EventsFragment : Fragment() {
 
-    val viewModel: EventViewModel by viewModels()
+    private val viewModel: EventViewModel by viewModels(
+        ownerProducer = ::requireParentFragment
+    )
+    private val authViewModel: AuthViewModel by viewModels(
+        ownerProducer = ::requireParentFragment
+    )
     lateinit var binding: FragmentEventsBinding
 
     override fun onCreateView(
@@ -46,6 +52,12 @@ class EventsFragment : Fragment() {
             override fun onRemove(event: Event) {
                 viewModel.removeEvent(event.id)
             }
+
+            override fun onEdit(event: Event) {
+                viewModel.edit(event)
+
+                //todo create EditEventFragment
+            }
         })
         val divider = MaterialDividerItemDecoration(
             requireContext(),
@@ -71,8 +83,16 @@ class EventsFragment : Fragment() {
             }
         }
 
+        authViewModel.data.observe(viewLifecycleOwner) {
+            binding.newEvent.isVisible = it.id != 0L
+        }
+
         binding.swipeRefreshEvents.setOnRefreshListener {
             viewModel.refreshEvents()
+        }
+
+        binding.newEvent.setOnClickListener {
+            findNavController().navigate(R.id.action_eventsFragment_to_newEventFragment)
         }
 
         return binding.root

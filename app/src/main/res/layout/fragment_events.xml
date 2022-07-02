@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.EventsFragment">
+    tools:context=".ui.event.EventsFragment">
 
     <ProgressBar
         android:id="@+id/progress_events"
@@ -26,5 +26,10 @@
         tools:listitem="@layout/card_event" />
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/new_event"
+        style="@style/settings_fab"
+        app:borderWidth="0dp"
+        app:fabSize="normal"/>
 
 </FrameLayout>

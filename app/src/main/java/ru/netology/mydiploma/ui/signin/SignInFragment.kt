@@ -1,4 +1,4 @@
-package ru.netology.mydiploma.ui
+package ru.netology.mydiploma.ui.signin
 
 import android.content.Context
 import android.os.Bundle
@@ -6,13 +6,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_sign_in.*
 import ru.netology.mydiploma.R
 import ru.netology.mydiploma.auth.AppAuth
 import ru.netology.mydiploma.databinding.FragmentSignInBinding
+import ru.netology.mydiploma.ui.AppActivity
 import ru.netology.mydiploma.util.AndroidUtils
 import ru.netology.mydiploma.util.showToast
 import ru.netology.mydiploma.viewmodel.SignInViewModel

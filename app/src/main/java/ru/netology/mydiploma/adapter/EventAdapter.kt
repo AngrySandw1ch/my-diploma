@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -19,6 +20,7 @@ interface OnEventInteractionListener {
     fun onLike(event: Event)
     fun onJoin(event: Event)
     fun onRemove(event: Event)
+    fun onEdit(event: Event)
 }
 
 
@@ -63,9 +65,9 @@ class EventViewHolder(
             }
 
             eventLikeButton.iconTint = if (event.likedByMe) {
-                AppCompatResources.getColorStateList(root.context, R.color.white)
-            } else {
                 AppCompatResources.getColorStateList(root.context, R.color.red)
+            } else {
+                AppCompatResources.getColorStateList(root.context, R.color.grey)
             }
             eventLikeButton.text =
                 if (event.likeOwnerIds.isEmpty()) "" else FormatUtils.formatNum(event.likeOwnerIds.size)
@@ -92,7 +94,7 @@ class EventViewHolder(
                     FormatUtils.formatDate(event.datetime)
                 }
 
-            eventType.text = event.attachment?.type.toString()
+            eventType.text = event.type.toString()
 
 
             //listeners
@@ -103,6 +105,8 @@ class EventViewHolder(
             eventJoinButton.setOnClickListener {
                 onEventInteractionListener.onJoin(event)
             }
+
+            eventMenuButton.isVisible = event.ownedByMe
 
             eventMenuButton.setOnClickListener {
                 PopupMenu(it.context, it).apply {
@@ -115,7 +119,7 @@ class EventViewHolder(
                                 true
                             }
                             R.id.item_edit -> {
-                                //todo need to realize onEdit()
+                                onEventInteractionListener.onEdit(event)
                                 true
                             }
                             else -> false

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/feedFragment"
-        android:name="ru.netology.mydiploma.ui.FeedFragment"
+        android:name="ru.netology.mydiploma.ui.post.FeedFragment"
         android:label="@string/feed_fragment"
         tools:layout="@layout/fragment_feed">
         <action
@@ -28,7 +28,7 @@
 
      <fragment
          android:id="@+id/signInFragment"
-         android:name="ru.netology.mydiploma.ui.SignInFragment"
+         android:name="ru.netology.mydiploma.ui.signin.SignInFragment"
          android:label="@string/signIn_fragment"
          tools:layout="@layout/fragment_sign_in">
          <action
@@ -43,7 +43,7 @@
 
      <fragment
          android:id="@+id/signUpFragment"
-         android:name="ru.netology.mydiploma.ui.SignUpFragment"
+         android:name="ru.netology.mydiploma.ui.signup.SignUpFragment"
          android:label="@string/signUp_fragment"
          tools:layout="@layout/fragment_sign_up">
          <action
@@ -58,21 +58,35 @@
 
      <fragment
          android:id="@+id/usersFragment"
-         android:name="ru.netology.mydiploma.ui.UsersFragment"
+         android:name="ru.netology.mydiploma.ui.user.UsersFragment"
          tools:layout="@layout/fragment_users"
          android:label="@string/users_fragment">
      </fragment>
 
      <fragment
          android:id="@+id/eventsFragment"
-         android:name="ru.netology.mydiploma.ui.EventsFragment"
+         android:name="ru.netology.mydiploma.ui.event.EventsFragment"
          tools:layout="@layout/fragment_events"
          android:label="@string/events_fragment">
+         <action
+             android:id="@+id/action_eventsFragment_to_newEventFragment"
+             app:destination="@id/newEventFragment"
+             app:enterAnim="@android:anim/fade_in"
+             app:exitAnim="@android:anim/fade_out"
+             app:popEnterAnim="@android:anim/fade_in"
+             app:popExitAnim="@android:anim/fade_out"/>
      </fragment>
 
     <fragment
+        android:id="@+id/newEventFragment"
+        android:name="ru.netology.mydiploma.ui.event.NewEventFragment"
+        tools:layout="@layout/fragment_new_event"
+        android:label="@string/new_event_fragment">
+    </fragment>
+
+    <fragment
         android:id="@+id/editPostFragment"
-        android:name="ru.netology.mydiploma.ui.EditPostFragment"
+        android:name="ru.netology.mydiploma.ui.post.EditPostFragment"
         tools:layout="@layout/fragment_edit_post"
         android:label="@string/edit_post_fragment">
         <action
@@ -86,7 +100,7 @@
 
     <fragment
         android:id="@+id/newPostFragment"
-        android:name="ru.netology.mydiploma.ui.NewPostFragment"
+        android:name="ru.netology.mydiploma.ui.post.NewPostFragment"
         tools:layout="@layout/fragment_new_post"
         android:label="@string/new_post_fragment">
     </fragment>

@@ -14,7 +14,7 @@ import java.io.File
 import java.lang.Exception
 import java.time.Instant
 
-val empty = Post(
+private val empty = Post(
     0,
     0,
     "",
@@ -119,13 +119,14 @@ class PostViewModel : ViewModel() {
 
             edited.value?.let { post ->
                 when(_photo.value) {
-                    noPhoto -> repository.save(post)
+                    noPhoto -> repository.save(post.copy(published = Instant.now().toString()))
                     else -> _photo.value?.file?.let { file ->
-                        repository.saveWithAttachment(post, MediaUpload(file))
+                        repository.saveWithAttachment(
+                            post.copy(published = Instant.now().toString())
+                            , MediaUpload(file)
+                        )
                     }
-
                 }
-                repository.save(post.copy(published = Instant.now().toString()))
             }
             _dataState.postValue(ModelState())
         } catch (e: Exception) {

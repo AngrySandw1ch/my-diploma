@@ -1,4 +1,4 @@
-package ru.netology.mydiploma.ui
+package ru.netology.mydiploma.ui.post
 
 import android.app.Activity
 import android.content.Intent
@@ -18,7 +18,7 @@ import ru.netology.mydiploma.util.AndroidUtils
 import ru.netology.mydiploma.util.showSnack
 import ru.netology.mydiploma.viewmodel.PostViewModel
 
-private const val MAX_SIZE = 2048
+const val MAX_SIZE = 2048
 
 class NewPostFragment : Fragment() {
 

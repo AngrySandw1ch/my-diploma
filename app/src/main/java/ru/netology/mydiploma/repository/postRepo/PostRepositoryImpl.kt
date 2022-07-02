@@ -42,7 +42,7 @@ class PostRepositoryImpl() : PostRepository {
             }
             val body =
                 response.body() ?: throw ApiError(response.code(), response.message())
-            _data.postValue(data.value?.map {
+            _data.postValue(_data.value?.map {
                 if (it.id == body.id) {
                     body
                 } else {

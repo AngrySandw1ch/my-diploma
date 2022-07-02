@@ -1,6 +1,5 @@
-package ru.netology.mydiploma.ui
+package ru.netology.mydiploma.ui.user
 
-import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,7 +8,6 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.google.android.material.divider.MaterialDividerItemDecoration
-import ru.netology.mydiploma.R
 import ru.netology.mydiploma.adapter.UserAdapter
 import ru.netology.mydiploma.databinding.FragmentUsersBinding
 import ru.netology.mydiploma.viewmodel.UserViewModel
