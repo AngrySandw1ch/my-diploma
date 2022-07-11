@@ -32,6 +32,11 @@ class NewEventFragment : Fragment() {
         ownerProducer = ::requireParentFragment
     )
 
+    companion object {
+        const val DATE_KEY = "date"
+        const val TIME_KEY = "time"
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -98,7 +103,6 @@ class NewEventFragment : Fragment() {
             viewModel.clearEdited()
             viewModel.changePhoto(null, null)
             AndroidUtils.hideKeyboard(requireView())
-
         }
 
         binding.chooseDate.setOnClickListener {

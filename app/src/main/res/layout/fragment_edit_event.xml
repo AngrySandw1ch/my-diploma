@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/ordinary_padding"
+    tools:context=".ui.event.EditEventFragment">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/cancel"
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        app:icon="@drawable/ic_close_24"
+        app:iconGravity="textStart"
+        app:iconTint="@color/grey2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/edit_event_content"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:textColorLink="@color/blue"
+        android:textCursorDrawable="@color/blue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cancel"
+        app:layout_constraintBottom_toTopOf="@id/barrier"
+        app:layout_constraintVertical_bias="0"
+        android:layout_marginBottom="@dimen/ordinary_margin"/>
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="edit_date_button, edit_time_button, radio_group"
+        app:barrierDirection="top"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/edit_date_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:text="@string/date"
+        android:textColor="@color/grey2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/space"
+        app:layout_constraintEnd_toStartOf="@id/edit_time_button"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/edit_time_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:textColor="@color/grey2"
+        android:text="@string/time"
+        app:layout_constraintStart_toEndOf="@id/edit_date_button"
+        app:layout_constraintBottom_toTopOf="@id/space"
+        app:layout_constraintEnd_toStartOf="@id/radio_group"/>
+
+    <RadioGroup
+        android:id="@+id/radio_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/space"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/edit_time_button">
+        <RadioButton
+            android:id="@+id/edit_online"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/online"/>
+        <RadioButton
+            android:id="@+id/edit_offline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/offline"/>
+    </RadioGroup>
+
+    <Space
+        android:id="@+id/space"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/ordinary_margin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottom_container"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <LinearLayout
+        android:id="@+id/bottom_container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@color/grey">
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/accept_changes"
+            style="@style/settings_buttons"
+            android:text="@string/accept_changes"
+            app:icon="@drawable/ic_done_24"
+            app:iconTint="@color/grey2"
+            app:iconGravity="textStart"
+            app:cornerRadius="20dp"
+            app:strokeColor="@color/grey2"
+            app:strokeWidth="1dp"
+            />
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

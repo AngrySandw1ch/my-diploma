@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/ordinary_padding"
+    tools:context=".ui.user.UserDetailsFragment">
+
+    <include
+        android:id="@+id/user_card"
+        layout="@layout/card_user"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_show"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:backgroundTint="@color/grey"
+        android:text="show jobs"
+        android:textColor="@color/grey2"
+        android:textSize="10dp"
+        app:icon="@drawable/ic_add_24"
+        app:iconSize="20dp"
+        app:iconTint="@color/grey2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/user_card" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_marginTop="@dimen/ordinary_margin"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintTop_toBottomOf="@id/button_show"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

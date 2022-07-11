@@ -152,4 +152,16 @@
         tools:text="@sample/posts.json/data/type" />
 
 
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/divider"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:dividerInsetStart="16dp"
+        app:dividerInsetEnd="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/event_type"
+        android:layout_marginTop="5dp"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

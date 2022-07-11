@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.divider.MaterialDividerItemDecoration
 import ru.netology.mydiploma.R
 import ru.netology.mydiploma.adapter.EventAdapter
 import ru.netology.mydiploma.adapter.OnEventInteractionListener
@@ -26,6 +25,10 @@ class EventsFragment : Fragment() {
         ownerProducer = ::requireParentFragment
     )
     lateinit var binding: FragmentEventsBinding
+
+    companion object {
+        const val EDIT_EVENT_CONTENT_KEY = "event_content"
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,22 +58,13 @@ class EventsFragment : Fragment() {
 
             override fun onEdit(event: Event) {
                 viewModel.edit(event)
-
-                //todo create EditEventFragment
+                findNavController().navigate(R.id.action_eventsFragment_to_editEventFragment, Bundle().apply {
+                    putString(EDIT_EVENT_CONTENT_KEY, event.content)
+                })
             }
         })
-        val divider = MaterialDividerItemDecoration(
-            requireContext(),
-            MaterialDividerItemDecoration.HORIZONTAL
-        ).apply {
-            dividerInsetStart = 16
-            dividerInsetEnd = 16
-        }
 
-        binding.eventContainer.apply {
-            this.adapter = adapter
-            this.addItemDecoration(divider)
-        }
+        binding.eventContainer.adapter = adapter
 
         viewModel.data.observe(viewLifecycleOwner) { events ->
             adapter.submitList(events)
@@ -97,5 +91,4 @@ class EventsFragment : Fragment() {
 
         return binding.root
     }
-
 }

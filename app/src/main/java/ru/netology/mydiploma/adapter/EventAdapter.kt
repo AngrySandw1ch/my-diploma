@@ -118,7 +118,7 @@ class EventViewHolder(
                                 onEventInteractionListener.onRemove(event)
                                 true
                             }
-                            R.id.item_edit -> {
+                            R.id.item_edit_event -> {
                                 onEventInteractionListener.onEdit(event)
                                 true
                             }

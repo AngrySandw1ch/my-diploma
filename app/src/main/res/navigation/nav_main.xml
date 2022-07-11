@@ -75,6 +75,13 @@
              app:exitAnim="@android:anim/fade_out"
              app:popEnterAnim="@android:anim/fade_in"
              app:popExitAnim="@android:anim/fade_out"/>
+         <action
+             android:id="@+id/action_eventsFragment_to_editEventFragment"
+             app:destination="@id/editEventFragment"
+             app:enterAnim="@android:anim/fade_in"
+             app:exitAnim="@android:anim/fade_out"
+             app:popEnterAnim="@android:anim/fade_in"
+             app:popExitAnim="@android:anim/fade_out"/>
      </fragment>
 
     <fragment
@@ -82,6 +89,13 @@
         android:name="ru.netology.mydiploma.ui.event.NewEventFragment"
         tools:layout="@layout/fragment_new_event"
         android:label="@string/new_event_fragment">
+    </fragment>
+
+    <fragment
+        android:id="@+id/editEventFragment"
+        android:name="ru.netology.mydiploma.ui.event.EditEventFragment"
+        tools:layout="@layout/fragment_edit_event"
+        android:label="@string/edit_event_fragment">
     </fragment>
 
     <fragment

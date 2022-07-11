@@ -18,8 +18,6 @@ import ru.netology.mydiploma.dto.Post
 import ru.netology.mydiploma.viewmodel.AuthViewModel
 import ru.netology.mydiploma.viewmodel.PostViewModel
 
-const val TEXT_KEY = "edit text"
-
 class FeedFragment : Fragment() {
     lateinit var binding: FragmentFeedBinding
     private val viewModel: PostViewModel by viewModels(
@@ -29,6 +27,10 @@ class FeedFragment : Fragment() {
     private val authViewModel: AuthViewModel by viewModels(
         ownerProducer = ::requireParentFragment
     )
+
+    companion object {
+        const val EDIT_POST_CONTENT_KEY = "edit text"
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,18 +54,12 @@ class FeedFragment : Fragment() {
                 findNavController().navigate(
                     R.id.action_feedFragment_to_editPostFragment,
                     Bundle().apply {
-                        putString(TEXT_KEY, post.content)
+                        putString(EDIT_POST_CONTENT_KEY, post.content)
                     })
             }
         })
 
-        val divider =
-            MaterialDividerItemDecoration(requireContext(), LinearLayoutManager.HORIZONTAL)
-
-        binding.container.apply {
-            this.adapter = adapter
-            this.addItemDecoration(divider)
-        }
+        binding.container.adapter = adapter
 
         viewModel.data.observe(viewLifecycleOwner) {
             adapter.submitList(it)
