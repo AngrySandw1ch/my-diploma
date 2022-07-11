@@ -93,6 +93,11 @@ class EditEventFragment : Fragment() {
         outState.putString(TIME_KEY, binding.editTimeButton.text.toString())
     }
 
+    override fun onDetach() {
+        super.onDetach()
+        dateAndTime = null
+    }
+
     private fun setDate() {
         dateAndTime?.let { calendar ->
             DatePickerDialog(
@@ -136,11 +141,6 @@ class EditEventFragment : Fragment() {
             binding.editDateButton.text = FormatUtils.formatJustDate(it.timeInMillis)
             viewModel.changeDatetime(it.timeInMillis)
         }
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        dateAndTime = null
     }
 
 }

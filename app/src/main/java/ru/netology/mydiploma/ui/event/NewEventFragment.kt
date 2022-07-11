@@ -46,6 +46,13 @@ class NewEventFragment : Fragment() {
 
         binding.newEventContent.requestFocus()
 
+        if (savedInstanceState != null) {
+            binding.apply {
+                chooseDate.text = savedInstanceState.getString(DATE_KEY)
+                chooseTime.text = savedInstanceState.getString(TIME_KEY)
+            }
+        }
+
 
         val pickPhotoLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             when (it.resultCode) {
@@ -135,6 +142,16 @@ class NewEventFragment : Fragment() {
         return binding.root
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(DATE_KEY, binding.chooseDate.text.toString())
+        outState.putString(TIME_KEY, binding.chooseTime.text.toString())
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        dateAndTime = null
+    }
 
     private fun initDate() {
         dateAndTime?.timeInMillis?.let {
@@ -180,11 +197,4 @@ class NewEventFragment : Fragment() {
             ).show()
         }
     }
-
-    override fun onDetach() {
-        super.onDetach()
-        dateAndTime = null
-    }
-
-
 }
