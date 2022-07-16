@@ -30,6 +30,9 @@ class UserViewHolder(
     fun bind(user: User) {
         with(binding) {
             userName.text = user.name
+
+            root.setOnClickListener{}
+
             Glide.with(avatar)
                 .load(user.avatar)
                 .placeholder(R.drawable.ic_cloud_download_24)

@@ -4,7 +4,10 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
+import ru.netology.mydiploma.viewmodel.PostViewModel
 import java.util.*
 
 fun Fragment.showSnack(message: String) {
@@ -44,4 +47,15 @@ fun Fragment.setDate(calendar: Calendar?, initDate: () -> Unit) {
             cal.get(Calendar.DAY_OF_MONTH)
         ).show()
     }
+}
+
+class ViewModelFactory: ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        val viewModel = when(modelClass) {
+            PostViewModel::class.java -> {PostViewModel()}
+            else -> throw Exception("unexpected value: ${modelClass::class.java.simpleName}")
+        }
+        return  viewModel as T
+    }
+
 }
