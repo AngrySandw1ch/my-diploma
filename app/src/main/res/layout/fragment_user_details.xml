@@ -19,9 +19,9 @@
         android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:backgroundTint="@color/grey"
-        android:text="show jobs"
+        android:text="@string/show_jobs"
         android:textColor="@color/grey2"
-        android:textSize="10dp"
+        android:textSize="14sp"
         app:icon="@drawable/ic_add_24"
         app:iconSize="20dp"
         app:iconTint="@color/grey2"
@@ -31,10 +31,13 @@
     <androidx.recyclerview.widget.RecyclerView
         android:layout_marginTop="@dimen/ordinary_margin"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        tools:listitem="@layout/card_job"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintTop_toBottomOf="@id/button_show"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

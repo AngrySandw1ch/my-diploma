@@ -1,7 +1,5 @@
 package ru.netology.mydiploma.ui.event
 
-import android.app.DatePickerDialog
-import android.app.TimePickerDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -16,6 +14,8 @@ import ru.netology.mydiploma.ui.event.NewEventFragment.Companion.DATE_KEY
 import ru.netology.mydiploma.ui.event.NewEventFragment.Companion.TIME_KEY
 import ru.netology.mydiploma.util.AndroidUtils
 import ru.netology.mydiploma.util.FormatUtils
+import ru.netology.mydiploma.util.setDate
+import ru.netology.mydiploma.util.setTime
 import ru.netology.mydiploma.viewmodel.EventViewModel
 import java.util.*
 
@@ -36,12 +36,8 @@ class EditEventFragment : Fragment() {
 
         dateAndTime = Calendar.getInstance()
 
-        if (savedInstanceState != null) {
-            binding.apply {
-                editDateButton.text = savedInstanceState.getString(DATE_KEY)
-                editTimeButton.text = savedInstanceState.getString(TIME_KEY)
-            }
-        }
+        binding.editTimeButton.text = savedInstanceState?.getString(DATE_KEY) ?: getString(R.string.date)
+        binding.editTimeButton.text = savedInstanceState?.getString(TIME_KEY) ?: getString(R.string.time)
 
         with(binding) {
             editEventContent.apply {
@@ -69,11 +65,15 @@ class EditEventFragment : Fragment() {
             }
 
             editDateButton.setOnClickListener {
-                setDate()
+                setDate(dateAndTime) {
+                    initDate()
+                }
             }
 
             editTimeButton.setOnClickListener {
-                setTime()
+                setTime(dateAndTime) {
+                    initTime()
+                }
             }
 
             acceptChanges.setOnClickListener {
@@ -96,37 +96,6 @@ class EditEventFragment : Fragment() {
     override fun onDetach() {
         super.onDetach()
         dateAndTime = null
-    }
-
-    private fun setDate() {
-        dateAndTime?.let { calendar ->
-            DatePickerDialog(
-                requireContext(),
-                DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfYear ->
-                    calendar.set(year, monthOfYear, dayOfYear)
-                    initDate()
-                },
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH)
-            ).show()
-        }
-    }
-
-    private fun setTime() {
-        dateAndTime?.let { calendar ->
-            TimePickerDialog(
-                requireContext(),
-                TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
-                    calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
-                    calendar.set(Calendar.MINUTE, minute)
-                    initTime()
-                },
-                calendar.get(Calendar.HOUR_OF_DAY),
-                calendar.get(Calendar.MINUTE),
-                true
-            ).show()
-        }
     }
 
     private fun initTime() {

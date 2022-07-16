@@ -1,8 +1,6 @@
 package ru.netology.mydiploma.ui.event
 
 import android.app.Activity
-import android.app.DatePickerDialog
-import android.app.TimePickerDialog
 import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -18,9 +16,7 @@ import com.github.dhaval2404.imagepicker.constant.ImageProvider
 import ru.netology.mydiploma.R
 import ru.netology.mydiploma.databinding.FragmentNewEventBinding
 import ru.netology.mydiploma.ui.post.MAX_SIZE
-import ru.netology.mydiploma.util.AndroidUtils
-import ru.netology.mydiploma.util.FormatUtils
-import ru.netology.mydiploma.util.showSnack
+import ru.netology.mydiploma.util.*
 import ru.netology.mydiploma.viewmodel.EventViewModel
 import java.util.*
 
@@ -46,12 +42,8 @@ class NewEventFragment : Fragment() {
 
         binding.newEventContent.requestFocus()
 
-        if (savedInstanceState != null) {
-            binding.apply {
-                chooseDate.text = savedInstanceState.getString(DATE_KEY)
-                chooseTime.text = savedInstanceState.getString(TIME_KEY)
-            }
-        }
+        binding.chooseDate.text = savedInstanceState?.getString(DATE_KEY) ?: getString(R.string.date)
+        binding.chooseTime.text = savedInstanceState?.getString(TIME_KEY) ?: getString(R.string.time)
 
 
         val pickPhotoLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
@@ -113,11 +105,15 @@ class NewEventFragment : Fragment() {
         }
 
         binding.chooseDate.setOnClickListener {
-            setDate()
+            setDate(dateAndTime) {
+                initDate()
+            }
         }
 
         binding.chooseTime.setOnClickListener {
-            setTime()
+            setTime(dateAndTime) {
+                initTime()
+            }
         }
 
         binding.radioGroup.setOnCheckedChangeListener { _, buttonId ->
@@ -164,37 +160,6 @@ class NewEventFragment : Fragment() {
         dateAndTime?.timeInMillis?.let {
             binding.chooseTime.text = FormatUtils.formatJustTime(it)
             viewModel.changeDatetime(it)
-        }
-    }
-
-    private fun setDate() {
-        dateAndTime?.let {
-            DatePickerDialog(
-                requireContext(),
-                DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfYear ->
-                    it.set(year, monthOfYear, dayOfYear)
-                    initDate()
-                },
-                it.get(Calendar.YEAR),
-                it.get(Calendar.MONTH),
-                it.get(Calendar.DAY_OF_MONTH)
-            ).show()
-        }
-    }
-
-    private fun setTime() {
-        dateAndTime?.let {
-            TimePickerDialog(
-                requireContext(),
-                TimePickerDialog.OnTimeSetListener { _, hourOdDay, minute ->
-                    it.set(Calendar.HOUR_OF_DAY, hourOdDay)
-                    it.set(Calendar.MINUTE, minute)
-                    initTime()
-                },
-                it.get(Calendar.HOUR_OF_DAY),
-                it.get(Calendar.MINUTE),
-                true
-            ).show()
         }
     }
 }

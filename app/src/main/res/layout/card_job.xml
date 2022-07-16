@@ -4,17 +4,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card_job"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="@dimen/ordinary_padding">
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/name"
         tools:text="New company"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/job_menu"
+        app:layout_constraintHorizontal_bias="0"/>
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/job_menu"
+        android:layout_width="@dimen/menu_button_width"
+        android:layout_height="@dimen/menu_button_height"
+        app:icon="@drawable/ic_more_vert_24"
+        app:iconTint="@color/grey2"
+        app:iconGravity="textStart"
+        android:background="@android:color/transparent"
+        app:layout_constraintTop_toTopOf="@id/name"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <com.google.android.material.textview.MaterialTextView
@@ -22,8 +36,48 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/name"
+        android:textSize="18sp"
         tools:text="My Position"
+        android:layout_marginTop="@dimen/margin_vertical_small"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="@string/start_from"
+        app:layout_constraintTop_toBottomOf="@id/position"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/end"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="@string/end_to"
+        app:layout_constraintTop_toTopOf="@id/start"
+        app:layout_constraintStart_toEndOf="@id/start"
+        android:layout_marginStart="@dimen/margin_horizontal_large"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/comp_link"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="italic"
+        android:autoLink="web"
+        android:layout_marginTop="@dimen/ordinary_margin"
+        tools:text="https://ru.stackoverflow.com/"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/start"/>
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/div"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_vertical_small"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/comp_link"
         app:layout_constraintEnd_toEndOf="parent"/>
 
 

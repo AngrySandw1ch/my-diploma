@@ -18,6 +18,7 @@ class UserDetailsFragment : Fragment() {
     ): View {
         binding = FragmentUserDetailsBinding.inflate(inflater, container, false)
 
+
         return binding.root
     }
 
