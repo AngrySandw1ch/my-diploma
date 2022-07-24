@@ -3,6 +3,7 @@ package ru.netology.mydiploma.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -12,8 +13,8 @@ import ru.netology.mydiploma.dto.Job
 import ru.netology.mydiploma.util.FormatUtils
 
 interface OnJobInteractionListener {
-    fun onEdit(id: Long)
-    fun onRemove(id: Long)
+    fun onEdit(job: Job)
+    fun onRemove(job: Job)
 }
 
 class JobAdapter(
@@ -44,6 +45,8 @@ class JobViewHolder(
             }
             compLink.text = job.link
 
+            jobMenu.isVisible = job.ownedByMe
+
             jobMenu.setOnClickListener {
                 PopupMenu(binding.root.context, it).apply {
                     inflate(R.menu.job_menu)
@@ -52,11 +55,11 @@ class JobViewHolder(
                     setOnMenuItemClickListener { menuItem ->
                         when(menuItem.itemId) {
                             R.id.job_item_edit -> {
-                                onJobInteractionListener.onEdit(job.id)
+                                onJobInteractionListener.onEdit(job)
                                 true
                             }
                             R.id.job_item_remove -> {
-                                onJobInteractionListener.onRemove(job.id)
+                                onJobInteractionListener.onRemove(job)
                                 true
                             }
                             else -> false

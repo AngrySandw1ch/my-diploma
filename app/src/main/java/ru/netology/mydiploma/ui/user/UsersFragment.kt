@@ -7,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.divider.MaterialDividerItemDecoration
+import ru.netology.mydiploma.R
 import ru.netology.mydiploma.adapter.UserAdapter
 import ru.netology.mydiploma.databinding.FragmentUsersBinding
 import ru.netology.mydiploma.viewmodel.UserViewModel
@@ -17,21 +19,23 @@ class UsersFragment : Fragment() {
     lateinit var binding: FragmentUsersBinding
     private val viewModel: UserViewModel by viewModels()
 
+    companion object {
+        const val USER_KEY = "USER_KEY"
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentUsersBinding.inflate(inflater, container, false)
 
-        val divider = MaterialDividerItemDecoration(
-            requireContext(),
-            MaterialDividerItemDecoration.HORIZONTAL
-        )
-
-        val adapter = UserAdapter()
+        val adapter = UserAdapter { user ->
+            findNavController().navigate(R.id.action_usersFragment_to_userDetailsFragment, Bundle().apply {
+                putParcelable(USER_KEY, user)
+            })
+        }
 
         binding.usersContainer.adapter = adapter
-        binding.usersContainer.addItemDecoration(divider)
 
         viewModel.data.observe(viewLifecycleOwner) { users ->
             adapter.submitList(users)

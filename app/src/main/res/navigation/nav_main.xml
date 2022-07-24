@@ -61,7 +61,49 @@
          android:name="ru.netology.mydiploma.ui.user.UsersFragment"
          tools:layout="@layout/fragment_users"
          android:label="@string/users_fragment">
+         <action
+             android:id="@+id/action_usersFragment_to_userDetailsFragment"
+             app:destination="@id/userDetailsFragment"
+             app:enterAnim="@android:anim/fade_in"
+             app:exitAnim="@android:anim/fade_out"
+             app:popEnterAnim="@android:anim/fade_in"
+             app:popExitAnim="@android:anim/fade_out"/>
      </fragment>
+
+    <fragment
+        android:id="@+id/userDetailsFragment"
+        android:name="ru.netology.mydiploma.ui.user.UserDetailsFragment"
+        tools:layout="@layout/fragment_user_details"
+        android:label="@string/user_details">
+        <action
+            android:id="@+id/action_userDetailsFragment_to_newJobFragment"
+            app:destination="@id/newJobFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out"/>
+        <action
+            android:id="@+id/action_userDetailsFragment_to_editJobFragment"
+            app:destination="@id/editJobFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/newJobFragment"
+        android:name="ru.netology.mydiploma.ui.job.NewJobFragment"
+        tools:layout="@layout/fragment_new_job"
+        android:label="@string/new_job_fragment">
+    </fragment>
+
+    <fragment
+        android:id="@+id/editJobFragment"
+        android:name="ru.netology.mydiploma.ui.job.EditJobFragment"
+        tools:layout="@layout/fragment_edit_job_fragment"
+        android:label="@string/edit_job_fragment">
+    </fragment>
 
      <fragment
          android:id="@+id/eventsFragment"

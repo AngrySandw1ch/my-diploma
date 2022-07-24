@@ -1,5 +1,9 @@
 package ru.netology.mydiploma.dto
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
 data class Job(
     val id: Long,
     val name: String,
@@ -8,4 +12,4 @@ data class Job(
     val finish: Long? = null,
     val link: String? = null,
     val ownedByMe: Boolean = false
-)
+): Parcelable

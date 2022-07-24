@@ -34,6 +34,8 @@
     <string name="new_post_fragment">New post</string>
     <string name="new_event_fragment">New event</string>
     <string name="edit_event_fragment">Edit event</string>
+    <string name="new_job_fragment">New job</string>
+    <string name="edit_job_fragment">Edit job</string>
 
     <!--Card Event-->
     <string name="org">Organizer:</string>
@@ -65,5 +67,19 @@
     <string name="show_jobs">show jobs</string>
     <string name="start_from">from: %1$s</string>
     <string name="end_to">to: %1$s</string>
+
+    <!--User Details Fragment-->
+    <string name="user_details">User Details</string>
+    <string name="add_job">Add job</string>
+
+    <!--New Job Fragment-->
+    <string name="enter_name">Enter name</string>
+    <string name="enter_position">Enter position</string>
+    <string name="enter_link">Enter link</string>
+    <string name="start">Start</string>
+    <string name="finish">Finish</string>
+    <string name="create_job">Create job</string>
+    <string name="close">Close</string>
+
 
 </resources>

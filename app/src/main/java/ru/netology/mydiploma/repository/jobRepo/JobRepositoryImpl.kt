@@ -47,9 +47,9 @@ class JobRepositoryImpl() : JobRepository {
         }
     }
 
-    override suspend fun deleteJob(id: Long) {
+    override suspend fun removeJob(id: Long) {
         try {
-            val response = JobApi.service.deleteJob(id)
+            val response = JobApi.service.removeJob(id)
             if (!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())
             }

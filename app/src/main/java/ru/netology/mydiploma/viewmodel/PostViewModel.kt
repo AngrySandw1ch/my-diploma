@@ -30,8 +30,8 @@ class PostViewModel : ViewModel() {
     val data: LiveData<List<Post>>
         get() = AppAuth.getInstance().authLiveData.switchMap { (myId, _) ->
             repository.data.map { posts ->
-                posts.map {
-                    it.copy(ownedByMe = it.authorId == myId)
+                posts.map { post ->
+                    post.copy(ownedByMe = post.authorId == myId)
                 }
             }
         }

@@ -45,7 +45,6 @@ class EventViewHolder(
     fun bind(event: Event) {
         with(binding) {
 
-            //initialize parameters
             when (event.attachment?.type) {
                 AttachmentType.IMAGE -> {
                     eventImage.visibility = View.VISIBLE

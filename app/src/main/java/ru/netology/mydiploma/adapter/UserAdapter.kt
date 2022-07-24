@@ -10,11 +10,14 @@ import ru.netology.mydiploma.R
 import ru.netology.mydiploma.databinding.CardUserBinding
 import ru.netology.mydiploma.dto.User
 
+typealias UserInteractionListener = (User) -> Unit
 
-class UserAdapter : ListAdapter<User, UserViewHolder>(UserDiffCallBack()) {
+class UserAdapter(
+    private val userInteractionListener: UserInteractionListener
+    ) : ListAdapter<User, UserViewHolder>(UserDiffCallBack()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
         val binding = CardUserBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return UserViewHolder(binding)
+        return UserViewHolder(binding, userInteractionListener)
     }
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
@@ -25,13 +28,16 @@ class UserAdapter : ListAdapter<User, UserViewHolder>(UserDiffCallBack()) {
 }
 
 class UserViewHolder(
-    private val binding: CardUserBinding
+    private val binding: CardUserBinding,
+    private val userInteractionListener: UserInteractionListener
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(user: User) {
         with(binding) {
             userName.text = user.name
 
-            root.setOnClickListener{}
+            root.setOnClickListener{
+                userInteractionListener.invoke(user)
+            }
 
             Glide.with(avatar)
                 .load(user.avatar)

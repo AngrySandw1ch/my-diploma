@@ -43,7 +43,7 @@ interface JobApiService {
     suspend fun saveJob(@Body job: Job): Response<Job>
 
     @DELETE("api/my/jobs/{jobId}")
-    suspend fun deleteJob(@Path("id") id: Long): Response<Unit>
+    suspend fun removeJob(@Path("id") id: Long): Response<Unit>
 }
 
 object JobApi {
