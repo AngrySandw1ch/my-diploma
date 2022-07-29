@@ -3,10 +3,12 @@
     <group android:id="@+id/job_owned">
         <item
             android:id="@+id/job_item_edit"
-            android:title="@string/item_edit"/>
+            android:title="@string/item_edit"
+            android:icon="@drawable/ic_edit"/>
         <item
             android:id="@+id/job_item_remove"
-            android:title="@string/item_remove"/>
+            android:title="@string/item_remove"
+            android:icon="@drawable/ic_delete"/>
     </group>
 
 </menu>

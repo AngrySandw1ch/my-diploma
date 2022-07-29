@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.appcompat.widget.CustomPopupMenu
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -68,7 +69,7 @@ class PostViewHolder(
 
             menu.isVisible = post.ownedByMe
             menu.setOnClickListener {
-                PopupMenu(it.context, it).apply {
+                CustomPopupMenu(it.context, it).apply {
                     inflate(R.menu.post_menu)
                     menu.setGroupVisible(R.id.owned, post.ownedByMe)
                     setOnMenuItemClickListener { menuItem ->

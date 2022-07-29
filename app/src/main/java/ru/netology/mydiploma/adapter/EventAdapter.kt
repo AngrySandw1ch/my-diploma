@@ -1,10 +1,12 @@
 package ru.netology.mydiploma.adapter
 
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.appcompat.widget.CustomPopupMenu
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -108,7 +110,7 @@ class EventViewHolder(
             eventMenuButton.isVisible = event.ownedByMe
 
             eventMenuButton.setOnClickListener {
-                PopupMenu(it.context, it).apply {
+                CustomPopupMenu(it.context, it).apply {
                     inflate(R.menu.event_menu)
                     menu.setGroupVisible(R.id.owned_event, event.ownedByMe)
                     setOnMenuItemClickListener { menuItem ->

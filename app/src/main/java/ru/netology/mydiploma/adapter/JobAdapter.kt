@@ -3,6 +3,7 @@ package ru.netology.mydiploma.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import androidx.appcompat.widget.CustomPopupMenu
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -53,7 +54,7 @@ class JobViewHolder(
 
             //jobMenu.isVisible = job.ownedByMe
             jobMenu.setOnClickListener {
-                PopupMenu(binding.root.context, it).apply {
+                CustomPopupMenu(binding.root.context, it).apply {
                     inflate(R.menu.job_menu)
                     //menu.setGroupVisible(R.id.job_owned, job.ownedByMe)
                     setOnMenuItemClickListener { menuItem ->
