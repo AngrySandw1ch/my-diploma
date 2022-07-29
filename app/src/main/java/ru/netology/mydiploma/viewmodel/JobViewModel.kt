@@ -14,17 +14,10 @@ val emptyJob = Job(
     start = 0
 )
 
-class JobViewModel : ViewModel() {
+class JobViewModel(private var userId: Long?) : ViewModel() {
     private val repository: JobRepositoryImpl = JobRepositoryImpl()
 
-    val data: LiveData<List<Job>>
-        get() = AppAuth.getInstance().authLiveData.switchMap { (myId, _) ->
-            repository.data.map { jobs ->
-                jobs.map { job ->
-                    job.copy(ownedByMe = job.id == myId)
-                }
-            }
-        }
+    val data: LiveData<List<Job>> get() = repository.data
 
     private val edited = MutableLiveData(emptyJob)
 
@@ -34,9 +27,12 @@ class JobViewModel : ViewModel() {
     init {
         try {
             viewModelScope.launch {
-                AppAuth.getInstance().authLiveData.value?.id?.let { id ->
+                AppAuth.getInstance().authLiveData.value?.id?.let { myId ->
                     _dataState.postValue(ModelState(loading = true))
-                    repository.getJobs(id)
+                    when (myId == userId) {
+                        true -> repository.getCurrentUserJobs()
+                        false -> userId?.let { repository.getUserJobs(it) }
+                    }
                     _dataState.postValue(ModelState())
                 }
             }
@@ -62,9 +58,12 @@ class JobViewModel : ViewModel() {
     fun refreshJobs() = viewModelScope.launch {
         try {
             viewModelScope.launch {
-                AppAuth.getInstance().authLiveData.value?.id?.let { id ->
+                AppAuth.getInstance().authLiveData.value?.id?.let { myId ->
                     _dataState.postValue(ModelState(refreshing = true))
-                    repository.getJobs(id)
+                    when (myId == userId) {
+                        true -> repository.getCurrentUserJobs()
+                        false -> userId?.let { repository.getUserJobs(it) }
+                    }
                     _dataState.postValue(ModelState())
                 }
             }

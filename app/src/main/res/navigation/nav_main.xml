@@ -101,7 +101,7 @@
     <fragment
         android:id="@+id/editJobFragment"
         android:name="ru.netology.mydiploma.ui.job.EditJobFragment"
-        tools:layout="@layout/fragment_edit_job_fragment"
+        tools:layout="@layout/fragment_edit_job"
         android:label="@string/edit_job_fragment">
     </fragment>
 

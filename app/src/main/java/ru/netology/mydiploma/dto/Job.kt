@@ -10,6 +10,5 @@ data class Job(
     val position: String,
     val start: Long,
     val finish: Long? = null,
-    val link: String? = null,
-    val ownedByMe: Boolean = false
+    val link: String? = null
 ): Parcelable

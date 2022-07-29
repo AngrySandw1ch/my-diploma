@@ -21,6 +21,7 @@ class UsersFragment : Fragment() {
 
     companion object {
         const val USER_KEY = "USER_KEY"
+        const val USER_ID_KEY = "USER_ID_KEY"
     }
 
     override fun onCreateView(

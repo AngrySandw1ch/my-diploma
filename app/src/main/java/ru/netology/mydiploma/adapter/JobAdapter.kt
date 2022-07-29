@@ -19,7 +19,7 @@ interface OnJobInteractionListener {
 
 class JobAdapter(
     private val onJobInteractionListener: OnJobInteractionListener
-    ) : ListAdapter<Job, JobViewHolder>(JobDiffCallBack()) {
+) : ListAdapter<Job, JobViewHolder>(JobDiffCallBack()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): JobViewHolder {
         val binding = CardJobBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return JobViewHolder(binding, onJobInteractionListener)
@@ -34,26 +34,30 @@ class JobAdapter(
 class JobViewHolder(
     private val binding: CardJobBinding,
     private val onJobInteractionListener: OnJobInteractionListener
-): RecyclerView.ViewHolder(binding.root) {
+) : RecyclerView.ViewHolder(binding.root) {
     fun bind(job: Job) {
         with(binding) {
             name.text = job.name
             position.text = job.position
-            start.text = binding.root.context.getString(R.string.start_from, FormatUtils.formatJustDate(job.start))
+            start.text = binding.root.context.getString(
+                R.string.start_from,
+                FormatUtils.formatJustDate(job.start)
+            )
             job.finish?.let {
-                end.text = binding.root.context.getString(R.string.end_to, FormatUtils.formatJustDate(job.finish))
+                end.text = binding.root.context.getString(
+                    R.string.end_to,
+                    FormatUtils.formatJustDate(job.finish)
+                )
             }
             compLink.text = job.link
 
-            jobMenu.isVisible = job.ownedByMe
-
+            //jobMenu.isVisible = job.ownedByMe
             jobMenu.setOnClickListener {
                 PopupMenu(binding.root.context, it).apply {
                     inflate(R.menu.job_menu)
-
-                    menu.setGroupVisible(R.id.job_owned, job.ownedByMe)
+                    //menu.setGroupVisible(R.id.job_owned, job.ownedByMe)
                     setOnMenuItemClickListener { menuItem ->
-                        when(menuItem.itemId) {
+                        when (menuItem.itemId) {
                             R.id.job_item_edit -> {
                                 onJobInteractionListener.onEdit(job)
                                 true
@@ -65,13 +69,13 @@ class JobViewHolder(
                             else -> false
                         }
                     }
-                }
+                }.show()
             }
         }
     }
 }
 
-class JobDiffCallBack: DiffUtil.ItemCallback<Job>() {
+class JobDiffCallBack : DiffUtil.ItemCallback<Job>() {
     override fun areItemsTheSame(oldItem: Job, newItem: Job): Boolean {
         return oldItem.id == newItem.id
     }

@@ -80,6 +80,10 @@
     <string name="finish">Finish</string>
     <string name="create_job">Create job</string>
     <string name="close">Close</string>
+    <string name="warning_message">You have to choose start time</string>
+
+    <!--New Job Fragment-->
+    <string name="reject_changes">Reject changes</string>
 
 
 </resources>

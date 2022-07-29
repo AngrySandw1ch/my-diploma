@@ -37,13 +37,16 @@ private val retrofit = Retrofit.Builder()
 
 interface JobApiService {
     @GET("api/{id}/jobs")
-    suspend fun getJobs(@Path("id") id: Long): Response<List<Job>>
+    suspend fun getUserJobs(@Path("id") id: Long): Response<List<Job>>
+
+    @GET("api/my/jobs")
+    suspend fun getCurrentUserJobs(): Response<List<Job>>
 
     @POST("api/my/jobs")
     suspend fun saveJob(@Body job: Job): Response<Job>
 
     @DELETE("api/my/jobs/{jobId}")
-    suspend fun removeJob(@Path("id") id: Long): Response<Unit>
+    suspend fun removeJob(@Path("jobId") id: Long): Response<Unit>
 }
 
 object JobApi {

@@ -5,56 +5,103 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import ru.netology.mydiploma.R
+import ru.netology.mydiploma.databinding.FragmentEditJobBinding
+import ru.netology.mydiploma.dto.Job
+import ru.netology.mydiploma.dto.User
+import ru.netology.mydiploma.ui.user.UserDetailsFragment.Companion.JOB_KEY
+import ru.netology.mydiploma.ui.user.UsersFragment
+import ru.netology.mydiploma.ui.user.UsersFragment.Companion.USER_ID_KEY
+import ru.netology.mydiploma.util.FormatUtils
+import ru.netology.mydiploma.util.ViewModelFactory
+import ru.netology.mydiploma.util.setDate
+import ru.netology.mydiploma.viewmodel.JobViewModel
+import java.util.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [EditJobFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class EditJobFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+    lateinit var binding: FragmentEditJobBinding
+    private var calendar: Calendar? = null
+    private val viewModel: JobViewModel by viewModels{
+        ViewModelFactory(arguments?.getLong(USER_ID_KEY))
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_edit_job_fragment, container, false)
-    }
+    ): View {
+        binding = FragmentEditJobBinding.inflate(inflater, container, false)
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment EditJobFragmnet.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            EditJobFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+        val job: Job? = arguments?.getParcelable(JOB_KEY)
+        calendar = Calendar.getInstance()
+
+        with(binding) {
+            job?.let {
+                editJobNameText.setText(it.name)
+                editJobPositionText.setText(it.position)
+                it.link?.let { link ->
+                    editJobLinkText.setText(link)
+                }
+                editChooseStart.text = FormatUtils.formatJustDate(it.start)
+                it.finish?.let { finish ->
+                    editChooseFinish.text = FormatUtils.formatJustDate(finish)
                 }
             }
+        }
+
+        binding.acceptJobChanges.setOnClickListener {
+            viewModel.changeNameAndPosition(
+                binding.editJobNameText.text.toString(),
+                binding.editJobPositionText.text.toString()
+            )
+            val link = binding.editJobLinkText.text.toString()
+            if (link.isBlank()) viewModel.changeLink() else viewModel.changeLink(link)
+
+            if (binding.editChooseFinish.text.toString() == getString(R.string.finish)) viewModel.changeFinish()
+
+            viewModel.save()
+            viewModel.refreshJobs()
+            findNavController().navigateUp()
+        }
+
+        binding.buttonDenyChanges.setOnClickListener {
+            viewModel.clearEdited()
+            findNavController().navigateUp()
+        }
+
+        binding.editChooseStart.setOnClickListener {
+            setDate(calendar) {
+                initStart()
+            }
+        }
+
+        binding.editChooseFinish.setOnClickListener {
+            setDate(calendar) {
+                initFinish()
+            }
+        }
+
+        return binding.root
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        calendar = null
+    }
+
+    private fun initStart() {
+        calendar?.timeInMillis?.let {
+            binding.editChooseStart.text = FormatUtils.formatJustDate(it)
+            viewModel.changeStart(it)
+        }
+    }
+
+    private fun initFinish() {
+        calendar?.timeInMillis?.let {
+            binding.editChooseFinish.text = FormatUtils.formatJustDate(it)
+            viewModel.changeFinish(it)
+        }
     }
 }

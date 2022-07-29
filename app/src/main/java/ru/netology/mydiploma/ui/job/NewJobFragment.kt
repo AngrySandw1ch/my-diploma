@@ -10,17 +10,15 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import ru.netology.mydiploma.R
 import ru.netology.mydiploma.databinding.FragmentNewJobBinding
-import ru.netology.mydiploma.util.AndroidUtils
-import ru.netology.mydiploma.util.FormatUtils
-import ru.netology.mydiploma.util.setDate
+import ru.netology.mydiploma.util.*
 import ru.netology.mydiploma.viewmodel.JobViewModel
 import java.util.*
 
 class NewJobFragment : Fragment() {
     lateinit var binding: FragmentNewJobBinding
-    private val viewModel: JobViewModel by viewModels(
-        ownerProducer = ::requireParentFragment
-    )
+    private val viewModel: JobViewModel by viewModels {
+        ViewModelFactory()
+    }
     private var calendar: Calendar? = null
 
     companion object {
@@ -33,6 +31,8 @@ class NewJobFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentNewJobBinding.inflate(inflater, container, false)
+
+        calendar = Calendar.getInstance()
 
         with(binding) {
             chooseStart.text = savedInstanceState?.getString(START_KEY) ?: getString(R.string.start)
@@ -66,20 +66,23 @@ class NewJobFragment : Fragment() {
         }
 
         binding.createJob.setOnClickListener {
+
+            if (binding.chooseStart.text.toString() == getString(R.string.start))  {
+                showToast(getString(R.string.warning_message))
+                return@setOnClickListener
+            }
+
             viewModel.changeNameAndPosition(
                 binding.jobNameText.text.toString(),
                 binding.jobPositionText.text.toString()
             )
 
             val link = binding.jobLinkText.text.toString()
-
-            if (link.isBlank())
-                viewModel.changeLink()
-            else
-                viewModel.changeLink(link)
+            if (link.isBlank()) viewModel.changeLink() else viewModel.changeLink(link)
 
             if (binding.chooseFinish.text.toString() == getString(R.string.finish)) viewModel.changeFinish()
 
+            viewModel.save()
             findNavController().navigateUp()
         }
 

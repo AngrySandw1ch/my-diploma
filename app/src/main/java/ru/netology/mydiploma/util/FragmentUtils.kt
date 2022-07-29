@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
+import ru.netology.mydiploma.auth.AppAuth
+import ru.netology.mydiploma.viewmodel.JobViewModel
 import ru.netology.mydiploma.viewmodel.PostViewModel
 import java.util.*
 
@@ -49,11 +51,13 @@ fun Fragment.setDate(calendar: Calendar?, initDate: () -> Unit) {
     }
 }
 
-class ViewModelFactory: ViewModelProvider.Factory {
+class ViewModelFactory(
+    private val userId: Long? = AppAuth.getInstance().authLiveData.value?.id
+): ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         val viewModel = when(modelClass) {
-            PostViewModel::class.java -> {PostViewModel()}
-            else -> throw Exception("unexpected value: ${modelClass::class.java.simpleName}")
+            JobViewModel::class.java -> {JobViewModel(userId)}
+            else -> throw Exception("unknown viewModel class: ${modelClass::class.java.simpleName}")
         }
         return  viewModel as T
     }

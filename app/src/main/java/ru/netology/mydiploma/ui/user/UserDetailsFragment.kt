@@ -12,17 +12,25 @@ import com.bumptech.glide.Glide
 import ru.netology.mydiploma.R
 import ru.netology.mydiploma.adapter.JobAdapter
 import ru.netology.mydiploma.adapter.OnJobInteractionListener
+import ru.netology.mydiploma.auth.AppAuth
 import ru.netology.mydiploma.databinding.FragmentUserDetailsBinding
 import ru.netology.mydiploma.dto.Job
 import ru.netology.mydiploma.dto.User
+import ru.netology.mydiploma.error.AppError
+import ru.netology.mydiploma.ui.user.UsersFragment.Companion.USER_ID_KEY
 import ru.netology.mydiploma.ui.user.UsersFragment.Companion.USER_KEY
+import ru.netology.mydiploma.util.ViewModelFactory
 import ru.netology.mydiploma.viewmodel.AuthViewModel
 import ru.netology.mydiploma.viewmodel.JobViewModel
+
+private const val CURRENT_USER_KEY = "CURRENT_USER_KEY"
 
 class UserDetailsFragment : Fragment() {
 
     lateinit var binding: FragmentUserDetailsBinding
-    private val jobViewModel: JobViewModel by viewModels()
+    private val jobViewModel: JobViewModel by viewModels {
+        ViewModelFactory(arguments?.getParcelable<User>(USER_KEY)?.id)
+    }
     private val authViewModel: AuthViewModel by viewModels(
         ownerProducer = ::requireParentFragment
     )
@@ -37,7 +45,8 @@ class UserDetailsFragment : Fragment() {
     ): View {
         binding = FragmentUserDetailsBinding.inflate(inflater, container, false)
 
-        val user: User? = arguments?.getParcelable(USER_KEY)
+        val user: User? =
+            savedInstanceState?.getParcelable(USER_KEY) ?: arguments?.getParcelable(USER_KEY)
 
         user?.let {
             with(binding) {
@@ -57,6 +66,7 @@ class UserDetailsFragment : Fragment() {
                 jobViewModel.edit(job)
                 findNavController().navigate(R.id.action_userDetailsFragment_to_editJobFragment, Bundle().apply {
                     putParcelable(JOB_KEY, job)
+                    user?.id?.let { putLong(USER_ID_KEY, it) }
                 })
             }
 
@@ -66,6 +76,9 @@ class UserDetailsFragment : Fragment() {
         })
 
         binding.jobList.adapter = jobAdapter
+        jobViewModel.data.observe(viewLifecycleOwner) {
+            jobAdapter.submitList(it)
+        }
 
         binding.jobSwipeRefresh.setOnRefreshListener {
             jobViewModel.refreshJobs()
@@ -80,19 +93,20 @@ class UserDetailsFragment : Fragment() {
             findNavController().navigate(R.id.action_userDetailsFragment_to_newJobFragment)
         }
 
-        jobViewModel.data.observe(viewLifecycleOwner) {
-            jobAdapter.submitList(it)
-        }
-
         jobViewModel.dataState.observe(viewLifecycleOwner) {
             binding.progressJob.isVisible = it.loading
-            binding.jobSwipeRefresh.isVisible = it.refreshing
+            binding.jobSwipeRefresh.isRefreshing = it.refreshing
         }
 
         authViewModel.data.observe(viewLifecycleOwner) {
-            binding.buttonAddJob.isVisible = it.id != 0L
+            binding.buttonAddJob.isVisible = it.id == user?.id
         }
 
         return binding.root
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putParcelable(CURRENT_USER_KEY, arguments?.getParcelable(USER_KEY))
     }
 }
