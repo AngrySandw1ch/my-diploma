@@ -1,5 +1,6 @@
 package ru.netology.mydiploma.viewmodel
 
+import android.app.Application
 import android.net.Uri
 import androidx.lifecycle.*
 import kotlinx.coroutines.launch
@@ -11,6 +12,7 @@ import ru.netology.mydiploma.model.ModelState
 import ru.netology.mydiploma.model.PhotoModel
 import ru.netology.mydiploma.repository.eventRepo.EventRepository
 import ru.netology.mydiploma.repository.eventRepo.EventRepositoryImpl
+import ru.netology.mydiploma.roomdb.AppDb
 import java.io.File
 import java.time.Clock
 import java.time.Instant
@@ -27,8 +29,8 @@ private val emptyEvent = Event(
     EventType.OFFLINE
 )
 
-class EventViewModel : ViewModel() {
-    private val repository: EventRepository = EventRepositoryImpl()
+class EventViewModel(application: Application) : AndroidViewModel(application) {
+    private val repository: EventRepository = EventRepositoryImpl(AppDb.getInstance(application).eventDao())
     val data: LiveData<List<Event>>
         get() = AppAuth.getInstance().authLiveData.switchMap { (myId, _) ->
             repository.data.map { events ->

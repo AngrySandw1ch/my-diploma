@@ -1,5 +1,5 @@
 package ru.netology.mydiploma.enumeration
 
-enum class EventType {
+enum class EventType constructor() {
     OFFLINE, ONLINE
 }

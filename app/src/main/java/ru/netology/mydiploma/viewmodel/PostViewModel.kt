@@ -1,5 +1,6 @@
 package ru.netology.mydiploma.viewmodel
 
+import android.app.Application
 import android.net.Uri
 import androidx.lifecycle.*
 import kotlinx.coroutines.launch
@@ -10,6 +11,7 @@ import ru.netology.mydiploma.model.ModelState
 import ru.netology.mydiploma.model.PhotoModel
 import ru.netology.mydiploma.repository.postRepo.PostRepository
 import ru.netology.mydiploma.repository.postRepo.PostRepositoryImpl
+import ru.netology.mydiploma.roomdb.AppDb
 import java.io.File
 import java.lang.Exception
 import java.time.Instant
@@ -25,8 +27,8 @@ private val empty = Post(
     null
 )
 
-class PostViewModel : ViewModel() {
-    private val repository: PostRepository = PostRepositoryImpl()
+class PostViewModel(application: Application) : AndroidViewModel(application) {
+    private val repository: PostRepository = PostRepositoryImpl(AppDb.getInstance(application).postDao())
     val data: LiveData<List<Post>>
         get() = AppAuth.getInstance().authLiveData.switchMap { (myId, _) ->
             repository.data.map { posts ->

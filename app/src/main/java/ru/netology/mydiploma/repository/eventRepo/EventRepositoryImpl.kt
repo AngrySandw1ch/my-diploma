@@ -1,7 +1,7 @@
 package ru.netology.mydiploma.repository.eventRepo
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.map
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okio.IOException
@@ -14,11 +14,17 @@ import ru.netology.mydiploma.enumeration.AttachmentType
 import ru.netology.mydiploma.error.ApiError
 import ru.netology.mydiploma.error.NetworkError
 import ru.netology.mydiploma.error.UnknownError
+import ru.netology.mydiploma.roomdb.dao.EventDao
+import ru.netology.mydiploma.roomdb.entity.EventEntity
+import ru.netology.mydiploma.roomdb.entity.toEntity
 
-class EventRepositoryImpl: EventRepository {
+class EventRepositoryImpl(private val dao: EventDao): EventRepository {
 
-    private val _data: MutableLiveData<List<Event>> = MutableLiveData()
-    override val data: LiveData<List<Event>> get() = _data
+    override val data: LiveData<List<Event>> = dao.getEvents().map{ eventEntityList->
+        eventEntityList.map {  eventEntity ->
+            eventEntity.toDto()
+        }
+    }
 
     override suspend fun getEvents() {
         try {
@@ -27,7 +33,7 @@ class EventRepositoryImpl: EventRepository {
                 throw ApiError(response.code(), response.message())
             }
             val body = response.body() ?: throw ApiError(response.code(), response.message())
-            _data.postValue(body)
+            dao.insert(body.toEntity())
         } catch (e: IOException) {
             throw NetworkError
         } catch (e: Exception) {
@@ -42,9 +48,7 @@ class EventRepositoryImpl: EventRepository {
                 throw ApiError(response.code(), response.message())
             }
             val body = response.body() ?: throw ApiError(response.code(), response.message())
-            _data.postValue(_data.value?.map {
-                if (it.id == body.id) body else it
-            })
+            dao.insert(EventEntity.fromDto(body))
         } catch (e: IOException) {
             throw NetworkError
         } catch (e: Exception) {
@@ -59,9 +63,7 @@ class EventRepositoryImpl: EventRepository {
                 throw Exception("${response.code()} ${response.message()}")
             }
             val body = response.body() ?: throw Exception("${response.code()} ${response.message()}")
-            _data.postValue(_data.value?.map {
-                if (it.id == body.id) body else it
-            })
+            dao.insert(EventEntity.fromDto(body))
         } catch (e: IOException) {
             throw NetworkError
         } catch (e: Exception) {
@@ -76,9 +78,7 @@ class EventRepositoryImpl: EventRepository {
                 throw Exception("${response.code()} ${response.message()}")
             }
             val body = response.body() ?: throw Exception("${response.code()} ${response.message()}")
-            _data.postValue(_data.value?.map {
-                if (it.id == body.id) body else it
-            })
+            dao.insert(EventEntity.fromDto(body))
         } catch (e: IOException) {
             throw NetworkError
         } catch (e: Exception) {
@@ -93,9 +93,7 @@ class EventRepositoryImpl: EventRepository {
                 throw ApiError(response.code(), response.message())
             }
             val body = response.body() ?: throw ApiError(response.code(), response.message())
-            _data.postValue(_data.value?.map {
-                if (it.id == body.id) body else it
-            })
+            dao.insert(EventEntity.fromDto(body))
         } catch (e: IOException) {
             throw NetworkError
         } catch (e: Exception) {
@@ -112,9 +110,7 @@ class EventRepositoryImpl: EventRepository {
             if (response.body() == null) {
                 throw ApiError(response.code(), response.message())
             }
-            _data.postValue(_data.value?.filter {
-                it.id != id
-            })
+            dao.removeById(id)
         } catch (e: IOException) {
             throw NetworkError
         } catch (e: Exception) {
@@ -129,13 +125,7 @@ class EventRepositoryImpl: EventRepository {
                 throw ApiError(response.code(), response.message())
             }
             val body = response.body() ?: throw ApiError(response.code(), response.message())
-            _data.postValue(_data.value?.map {
-                if (it.id == body.id) {
-                    body
-                } else {
-                    it
-                }
-            })
+            dao.insert(EventEntity.fromDto(body))
         } catch (e: IOException) {
             throw NetworkError
         } catch (e: Exception) {

@@ -2,19 +2,25 @@ package ru.netology.mydiploma.repository.jobRepo
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.map
 import okio.IOException
 import ru.netology.mydiploma.api.JobApi
 import ru.netology.mydiploma.dto.Job
 import ru.netology.mydiploma.error.ApiError
 import ru.netology.mydiploma.error.NetworkError
 import ru.netology.mydiploma.error.UnknownError
+import ru.netology.mydiploma.roomdb.AppDb
+import ru.netology.mydiploma.roomdb.dao.JobDao
+import ru.netology.mydiploma.roomdb.entity.JobEntity
+import ru.netology.mydiploma.roomdb.entity.toEntity
 
-class JobRepositoryImpl() : JobRepository {
+class JobRepositoryImpl(private val dao: JobDao) : JobRepository {
 
-    private val _data: MutableLiveData<List<Job>> = MutableLiveData()
-    override val data: LiveData<List<Job>> get() = _data
-
-
+    override val data: LiveData<List<Job>> = dao.getJobs().map { jobsEntityList ->
+        jobsEntityList.map { jobEntity ->
+            jobEntity.toDto()
+        }
+    }
 
 
     override suspend fun getUserJobs(id: Long) {
@@ -24,7 +30,7 @@ class JobRepositoryImpl() : JobRepository {
                 throw ApiError(response.code(), response.message())
             }
             val body = response.body() ?: throw ApiError(response.code(), response.message())
-            _data.postValue(body)
+            dao.insert(body.toEntity())
         } catch (e: IOException) {
             throw NetworkError
         } catch (e: Exception) {
@@ -39,7 +45,7 @@ class JobRepositoryImpl() : JobRepository {
                 throw ApiError(response.code(), response.message())
             }
             val body = response.body() ?: throw ApiError(response.code(), response.message())
-            _data.postValue(body)
+            dao.insert(body.toEntity())
         } catch (e: IOException) {
             throw NetworkError
         } catch (e: Exception) {
@@ -54,10 +60,7 @@ class JobRepositoryImpl() : JobRepository {
                 throw ApiError(response.code(), response.message())
             }
             val body = response.body() ?: throw ApiError(response.code(), response.message())
-            _data.postValue(_data.value?.map {
-                if (it.id == body.id) body else it
-            })
-
+            dao.insert(JobEntity.fromDto(body))
         } catch (e: IOException) {
             throw NetworkError
         } catch (e: Exception) {
@@ -71,9 +74,7 @@ class JobRepositoryImpl() : JobRepository {
             if (!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())
             }
-            _data.postValue(_data.value?.filter {
-                it.id != id
-            })
+            dao.removeById(id)
         } catch (e: IOException) {
             throw NetworkError
         } catch (e: Exception) {

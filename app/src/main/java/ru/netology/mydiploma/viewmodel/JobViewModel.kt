@@ -1,11 +1,13 @@
 package ru.netology.mydiploma.viewmodel
 
+import android.app.Application
 import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 import ru.netology.mydiploma.auth.AppAuth
 import ru.netology.mydiploma.dto.Job
 import ru.netology.mydiploma.model.ModelState
 import ru.netology.mydiploma.repository.jobRepo.JobRepositoryImpl
+import ru.netology.mydiploma.roomdb.AppDb
 
 val emptyJob = Job(
     id = 0,
@@ -14,8 +16,8 @@ val emptyJob = Job(
     start = 0
 )
 
-class JobViewModel(private var userId: Long?) : ViewModel() {
-    private val repository: JobRepositoryImpl = JobRepositoryImpl()
+class JobViewModel(private var userId: Long?, application: Application) : AndroidViewModel(application) {
+    private val repository: JobRepositoryImpl = JobRepositoryImpl(AppDb.getInstance(application).jobDao())
 
     val data: LiveData<List<Job>> get() = repository.data
 

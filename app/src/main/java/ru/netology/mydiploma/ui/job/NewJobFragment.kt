@@ -17,7 +17,7 @@ import java.util.*
 class NewJobFragment : Fragment() {
     lateinit var binding: FragmentNewJobBinding
     private val viewModel: JobViewModel by viewModels {
-        ViewModelFactory()
+        ViewModelFactory(application = requireActivity().application)
     }
     private var calendar: Calendar? = null
 
