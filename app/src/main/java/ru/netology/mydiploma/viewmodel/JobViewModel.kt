@@ -7,17 +7,17 @@ import ru.netology.mydiploma.auth.AppAuth
 import ru.netology.mydiploma.dto.Job
 import ru.netology.mydiploma.model.ModelState
 import ru.netology.mydiploma.repository.jobRepo.JobRepositoryImpl
-import ru.netology.mydiploma.roomdb.AppDb
 
 val emptyJob = Job(
     id = 0,
     name = "",
     position = "",
-    start = 0
+    start = 0,
+    ownerId = 0
 )
 
 class JobViewModel(private var userId: Long?, application: Application) : AndroidViewModel(application) {
-    private val repository: JobRepositoryImpl = JobRepositoryImpl(AppDb.getInstance(application).jobDao())
+    private val repository: JobRepositoryImpl = JobRepositoryImpl(userId ?: 0L)
 
     val data: LiveData<List<Job>> get() = repository.data
 
@@ -31,10 +31,13 @@ class JobViewModel(private var userId: Long?, application: Application) : Androi
             viewModelScope.launch {
                 AppAuth.getInstance().authLiveData.value?.id?.let { myId ->
                     _dataState.postValue(ModelState(loading = true))
-                    when (myId == userId) {
-                        true -> repository.getCurrentUserJobs()
-                        false -> userId?.let { repository.getUserJobs(it) }
+
+                    if (myId == userId) {
+                        repository.getCurrentUserJobs()
+                    } else  {
+                        userId?.let { repository.getUserJobs(it) }
                     }
+
                     _dataState.postValue(ModelState())
                 }
             }

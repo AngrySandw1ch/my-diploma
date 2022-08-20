@@ -10,22 +10,19 @@ import ru.netology.mydiploma.roomdb.converter.CoordinatesConverter
 import ru.netology.mydiploma.roomdb.converter.EventTypeConverter
 import ru.netology.mydiploma.roomdb.converter.MainConverter
 import ru.netology.mydiploma.roomdb.dao.EventDao
-import ru.netology.mydiploma.roomdb.dao.JobDao
 import ru.netology.mydiploma.roomdb.dao.PostDao
 import ru.netology.mydiploma.roomdb.dao.UserDao
 import ru.netology.mydiploma.roomdb.entity.EventEntity
-import ru.netology.mydiploma.roomdb.entity.JobEntity
 import ru.netology.mydiploma.roomdb.entity.PostEntity
 import ru.netology.mydiploma.roomdb.entity.UserEntity
 
 
-@Database(entities = [PostEntity::class, EventEntity::class, UserEntity::class, JobEntity::class], version = 1, exportSchema = false)
+@Database(entities = [PostEntity::class, EventEntity::class, UserEntity::class], version = 1, exportSchema = false)
 @TypeConverters(CoordinatesConverter::class, MainConverter::class, EventTypeConverter::class, AttachmentTypeConverter::class)
 abstract class AppDb : RoomDatabase() {
     abstract fun postDao(): PostDao
     abstract fun userDao(): UserDao
     abstract fun eventDao(): EventDao
-    abstract fun jobDao(): JobDao
 
 
     companion object {

@@ -7,7 +7,7 @@ class MainConverter {
     @TypeConverter
     fun fromSet(set: Set<Long>) : String {
         val stringBuilder = StringBuilder()
-        for (value in set.withIndex()) {
+        for (value in set) {
             stringBuilder.append(value).append(" ")
         }
         return stringBuilder.toString().trim()
@@ -17,14 +17,12 @@ class MainConverter {
     fun toSet(data: String): Set<Long> {
         val dataSet = mutableSetOf<Long>()
         val dataList = data.trim().split(" ")
+
         for (value in dataList) {
-            val chars: CharArray = value.toCharArray()
-            for (char in chars) {
-                if (char.isDigit()) {
-                    dataSet.add(char.code.toLong())
-                }
-            }
+            if (value.isBlank()) continue
+            dataSet.add(value.toLong())
         }
+
         return dataSet
     }
 }

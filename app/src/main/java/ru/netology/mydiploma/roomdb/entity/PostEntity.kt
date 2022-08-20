@@ -75,5 +75,5 @@ data class AttachmentEmbeddable(
     }
 }
 
-fun List<PostEntity>.toDto(): List<Post> = map(PostEntity::toDto)
+fun List<PostEntity>.fromEntity(): List<Post> = map(PostEntity::toDto)
 fun List<Post>.toEntity(): List<PostEntity> = map(PostEntity::fromDto)

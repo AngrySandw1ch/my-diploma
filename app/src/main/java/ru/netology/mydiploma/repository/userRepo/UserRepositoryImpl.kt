@@ -7,15 +7,13 @@ import ru.netology.mydiploma.api.UserApi
 import ru.netology.mydiploma.dto.User
 import ru.netology.mydiploma.roomdb.dao.UserDao
 import ru.netology.mydiploma.roomdb.entity.UserEntity
+import ru.netology.mydiploma.roomdb.entity.fromEntity
 import ru.netology.mydiploma.roomdb.entity.toEntity
 
 class UserRepositoryImpl(private val dao: UserDao) : UserRepository {
 
     override val data: LiveData<List<User>> = dao.getUsers().map { userEntityList ->
-        userEntityList.map { userEntity ->
-            userEntity.toDto()
-        }
-
+        userEntityList.fromEntity()
     }
 
     override suspend fun getUsers() {

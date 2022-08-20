@@ -16,14 +16,13 @@ import ru.netology.mydiploma.error.NetworkError
 import ru.netology.mydiploma.error.UnknownError
 import ru.netology.mydiploma.roomdb.dao.EventDao
 import ru.netology.mydiploma.roomdb.entity.EventEntity
+import ru.netology.mydiploma.roomdb.entity.fromEntity
 import ru.netology.mydiploma.roomdb.entity.toEntity
 
 class EventRepositoryImpl(private val dao: EventDao): EventRepository {
 
     override val data: LiveData<List<Event>> = dao.getEvents().map{ eventEntityList->
-        eventEntityList.map {  eventEntity ->
-            eventEntity.toDto()
-        }
+        eventEntityList.fromEntity()
     }
 
     override suspend fun getEvents() {

@@ -16,15 +16,13 @@ import ru.netology.mydiploma.error.NetworkError
 import ru.netology.mydiploma.error.UnknownError
 import ru.netology.mydiploma.roomdb.dao.PostDao
 import ru.netology.mydiploma.roomdb.entity.PostEntity
+import ru.netology.mydiploma.roomdb.entity.fromEntity
 import ru.netology.mydiploma.roomdb.entity.toEntity
 import java.io.IOException
 
 class PostRepositoryImpl(private val dao: PostDao) : PostRepository {
     override val data: LiveData<List<Post>> = dao.getPosts().map { postEntityList ->
-        postEntityList.map { postEntity ->
-            postEntity.toDto()
-        }
-
+        postEntityList.fromEntity()
     }
 
     override suspend fun getPosts() {
