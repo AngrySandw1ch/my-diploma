@@ -1,5 +1,6 @@
 package ru.netology.mydiploma.util
 
+import android.app.Application
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.widget.Toast
@@ -52,11 +53,12 @@ fun Fragment.setDate(calendar: Calendar?, initDate: () -> Unit) {
 }
 
 class ViewModelFactory(
-    private val userId: Long? = AppAuth.getInstance().authLiveData.value?.id
+    private val userId: Long? = AppAuth.getInstance().authLiveData.value?.id,
+    private val application: Application
 ): ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         val viewModel = when(modelClass) {
-            JobViewModel::class.java -> {JobViewModel(userId)}
+            JobViewModel::class.java -> {JobViewModel(userId, application)}
             else -> throw Exception("unknown viewModel class: ${modelClass::class.java.simpleName}")
         }
         return  viewModel as T

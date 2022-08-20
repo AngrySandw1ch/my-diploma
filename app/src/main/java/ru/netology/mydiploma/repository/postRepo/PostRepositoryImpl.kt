@@ -2,6 +2,7 @@ package ru.netology.mydiploma.repository.postRepo
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.map
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import ru.netology.mydiploma.api.PostApi
@@ -13,11 +14,16 @@ import ru.netology.mydiploma.enumeration.AttachmentType
 import ru.netology.mydiploma.error.ApiError
 import ru.netology.mydiploma.error.NetworkError
 import ru.netology.mydiploma.error.UnknownError
+import ru.netology.mydiploma.roomdb.dao.PostDao
+import ru.netology.mydiploma.roomdb.entity.PostEntity
+import ru.netology.mydiploma.roomdb.entity.fromEntity
+import ru.netology.mydiploma.roomdb.entity.toEntity
 import java.io.IOException
 
-class PostRepositoryImpl() : PostRepository {
-    private val _data: MutableLiveData<List<Post>> = MutableLiveData()
-    override val data: LiveData<List<Post>> = _data
+class PostRepositoryImpl(private val dao: PostDao) : PostRepository {
+    override val data: LiveData<List<Post>> = dao.getPosts().map { postEntityList ->
+        postEntityList.fromEntity()
+    }
 
     override suspend fun getPosts() {
         return try {
@@ -26,7 +32,7 @@ class PostRepositoryImpl() : PostRepository {
                 throw ApiError(response.code(), response.message())
             }
             val body = response.body() ?: throw ApiError(response.code(), response.message())
-            _data.postValue(body)
+            dao.insert(body.toEntity())
         } catch (e: IOException) {
             throw NetworkError
         } catch (e: Exception) {
@@ -42,9 +48,7 @@ class PostRepositoryImpl() : PostRepository {
             }
             val body =
                 response.body() ?: throw ApiError(response.code(), response.message())
-            _data.postValue(_data.value?.map {
-                if (it.id == body.id) body else it
-            })
+            dao.insert(PostEntity.fromDto(body))
         } catch (e: IOException) {
             throw NetworkError
         } catch (e: Exception) {
@@ -60,9 +64,7 @@ class PostRepositoryImpl() : PostRepository {
             }
             val body =
                 response.body() ?: throw ApiError(response.code(), response.message())
-            _data.postValue(data.value?.map {
-                if (it.id != body.id) it else body
-            })
+            dao.insert(PostEntity.fromDto(body))
         } catch (e: IOException) {
             throw NetworkError
         } catch (e: Exception) {
@@ -78,9 +80,7 @@ class PostRepositoryImpl() : PostRepository {
             }
             val body =
                 response.body() ?: throw ApiError(response.code(), response.message())
-            _data.postValue(data.value?.map {
-                if (it.id != body.id) it else body
-            })
+            dao.insert(PostEntity.fromDto(body))
         } catch (e: IOException) {
             throw NetworkError
         } catch (e: Exception) {
@@ -97,9 +97,7 @@ class PostRepositoryImpl() : PostRepository {
             if (response.body() == null) {
                 throw ApiError(response.code(), response.message())
             }
-            _data.postValue(data.value?.filter {
-                it.id != id
-            })
+            dao.removeById(id)
         } catch (e: IOException) {
             throw NetworkError
         } catch (e: Exception) {

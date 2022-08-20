@@ -24,8 +24,8 @@ class EditJobFragment : Fragment() {
 
     lateinit var binding: FragmentEditJobBinding
     private var calendar: Calendar? = null
-    private val viewModel: JobViewModel by viewModels{
-        ViewModelFactory(arguments?.getLong(USER_ID_KEY))
+    private val viewModel: JobViewModel by viewModels {
+        ViewModelFactory(arguments?.getLong(USER_ID_KEY), requireActivity().application)
     }
 
     override fun onCreateView(

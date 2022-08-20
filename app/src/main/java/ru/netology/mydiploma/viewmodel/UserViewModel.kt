@@ -1,17 +1,16 @@
 package ru.netology.mydiploma.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import android.app.Application
+import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 import ru.netology.mydiploma.dto.User
 import ru.netology.mydiploma.model.ModelState
 import ru.netology.mydiploma.repository.userRepo.UserRepositoryImpl
+import ru.netology.mydiploma.roomdb.AppDb
 import java.lang.Exception
 
-class UserViewModel: ViewModel() {
-    private val repository = UserRepositoryImpl()
+class UserViewModel(application: Application): AndroidViewModel(application) {
+    private val repository = UserRepositoryImpl(AppDb.getInstance(application).userDao())
     val data: LiveData<List<User>> get() = repository.data
 
     private val _dataState: MutableLiveData<ModelState> = MutableLiveData()

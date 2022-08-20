@@ -16,7 +16,7 @@
     <dimen name="user_name_margin_left">30dp</dimen>
     <dimen name="menu_button_width">20dp</dimen>
     <dimen name="menu_button_height">30dp</dimen>
-    <dimen name="user_name_size">15sp</dimen>
+    <dimen name="user_name_size">20sp</dimen>
     <dimen name="menu_button_margin_start">5dp</dimen>
 
     <!--Post card config-->

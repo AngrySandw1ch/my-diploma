@@ -1,6 +1,9 @@
 package ru.netology.mydiploma.dto
 
-data class Coordinates(
-    val lat: Double,
-    val long: Double
-)
+import androidx.room.ColumnInfo
+
+class Coordinates() {
+    var lat: Double = 0.0
+    @ColumnInfo(name = "_long")
+    var long: Double = 0.0
+}

@@ -1,17 +1,15 @@
 package ru.netology.mydiploma.viewmodel
 
+import android.app.Application
 import android.content.Context
 import android.widget.Toast
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 import ru.netology.mydiploma.R
 import ru.netology.mydiploma.api.AuthApi
 import ru.netology.mydiploma.auth.AuthState
 
-class SignUpViewModel : ViewModel() {
+class SignUpViewModel(application: Application) : AndroidViewModel(application) {
     private val _data = MutableLiveData(AuthState())
     val data: LiveData<AuthState> get() = _data
 

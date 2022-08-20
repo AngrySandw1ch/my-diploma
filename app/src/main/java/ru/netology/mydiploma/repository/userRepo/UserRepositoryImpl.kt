@@ -2,13 +2,19 @@ package ru.netology.mydiploma.repository.userRepo
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.map
 import ru.netology.mydiploma.api.UserApi
 import ru.netology.mydiploma.dto.User
+import ru.netology.mydiploma.roomdb.dao.UserDao
+import ru.netology.mydiploma.roomdb.entity.UserEntity
+import ru.netology.mydiploma.roomdb.entity.fromEntity
+import ru.netology.mydiploma.roomdb.entity.toEntity
 
-class UserRepositoryImpl : UserRepository {
+class UserRepositoryImpl(private val dao: UserDao) : UserRepository {
 
-    private val _data: MutableLiveData<List<User>> = MutableLiveData()
-    override val data: LiveData<List<User>> get() = _data
+    override val data: LiveData<List<User>> = dao.getUsers().map { userEntityList ->
+        userEntityList.fromEntity()
+    }
 
     override suspend fun getUsers() {
         try {
@@ -18,7 +24,7 @@ class UserRepositoryImpl : UserRepository {
             }
             val body =
                 response.body() ?: throw Exception("${response.code()} ${response.message()}")
-            _data.postValue(body)
+            dao.insert(body.toEntity())
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -32,16 +38,10 @@ class UserRepositoryImpl : UserRepository {
             }
             val body =
                 response.body() ?: throw Exception("${response.code()} ${response.message()}")
-            _data.postValue(_data.value?.map {
-                if (it.id != id) {
-                    it
-                } else body
-            })
+            dao.insert(UserEntity.fromDto(body))
         } catch (e: Exception) {
             e.printStackTrace()
         }
-        return data.value?.first {
-            it.id == id
-        } ?: throw Exception("Empty data")
+        return dao.getUserById(id).toDto()
     }
 }

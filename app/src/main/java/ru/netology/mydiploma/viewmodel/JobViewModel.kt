@@ -1,5 +1,6 @@
 package ru.netology.mydiploma.viewmodel
 
+import android.app.Application
 import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 import ru.netology.mydiploma.auth.AppAuth
@@ -11,11 +12,12 @@ val emptyJob = Job(
     id = 0,
     name = "",
     position = "",
-    start = 0
+    start = 0,
+    ownerId = 0
 )
 
-class JobViewModel(private var userId: Long?) : ViewModel() {
-    private val repository: JobRepositoryImpl = JobRepositoryImpl()
+class JobViewModel(private var userId: Long?, application: Application) : AndroidViewModel(application) {
+    private val repository: JobRepositoryImpl = JobRepositoryImpl(userId ?: 0L)
 
     val data: LiveData<List<Job>> get() = repository.data
 
@@ -29,10 +31,13 @@ class JobViewModel(private var userId: Long?) : ViewModel() {
             viewModelScope.launch {
                 AppAuth.getInstance().authLiveData.value?.id?.let { myId ->
                     _dataState.postValue(ModelState(loading = true))
-                    when (myId == userId) {
-                        true -> repository.getCurrentUserJobs()
-                        false -> userId?.let { repository.getUserJobs(it) }
+
+                    if (myId == userId) {
+                        repository.getCurrentUserJobs()
+                    } else  {
+                        userId?.let { repository.getUserJobs(it) }
                     }
+
                     _dataState.postValue(ModelState())
                 }
             }

@@ -29,7 +29,7 @@ class UserDetailsFragment : Fragment() {
 
     lateinit var binding: FragmentUserDetailsBinding
     private val jobViewModel: JobViewModel by viewModels {
-        ViewModelFactory(arguments?.getParcelable<User>(USER_KEY)?.id)
+        ViewModelFactory(arguments?.getParcelable<User>(USER_KEY)?.id, requireActivity().application)
     }
     private val authViewModel: AuthViewModel by viewModels(
         ownerProducer = ::requireParentFragment
