@@ -4,20 +4,20 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
+import dagger.hilt.android.AndroidEntryPoint
 import ru.netology.mydiploma.R
 import ru.netology.mydiploma.auth.AppAuth
 import ru.netology.mydiploma.databinding.ActivityAppBinding
 import ru.netology.mydiploma.viewmodel.AuthViewModel
+import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class AppActivity : AppCompatActivity() {
+    @Inject
+    lateinit var auth: AppAuth
     lateinit var binding: ActivityAppBinding
     private val viewModel: AuthViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,7 +76,7 @@ class AppActivity : AppCompatActivity() {
                 true
             }
             R.id.signOut -> {
-                AppAuth.getInstance().removeAuth()
+                auth.removeAuth()
                 true
             }
             else -> super.onOptionsItemSelected(item)

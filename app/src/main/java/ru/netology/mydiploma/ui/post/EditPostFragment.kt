@@ -7,11 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import ru.netology.mydiploma.databinding.FragmentEditPostBinding
 import ru.netology.mydiploma.ui.post.FeedFragment.Companion.EDIT_POST_CONTENT_KEY
 import ru.netology.mydiploma.util.AndroidUtils
 import ru.netology.mydiploma.viewmodel.PostViewModel
 
+@AndroidEntryPoint
 class EditPostFragment : Fragment() {
 
     lateinit var binding: FragmentEditPostBinding

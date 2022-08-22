@@ -13,6 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.constant.ImageProvider
+import dagger.hilt.android.AndroidEntryPoint
 import ru.netology.mydiploma.R
 import ru.netology.mydiploma.databinding.FragmentNewEventBinding
 import ru.netology.mydiploma.ui.post.MAX_SIZE
@@ -20,13 +21,12 @@ import ru.netology.mydiploma.util.*
 import ru.netology.mydiploma.viewmodel.EventViewModel
 import java.util.*
 
+@AndroidEntryPoint
 class NewEventFragment : Fragment() {
 
     lateinit var binding: FragmentNewEventBinding
     private var dateAndTime: Calendar? = null
-    private val viewModel: EventViewModel by viewModels(
-        ownerProducer = ::requireParentFragment
-    )
+    private val viewModel: EventViewModel by viewModels()
 
     companion object {
         const val DATE_KEY = "date"

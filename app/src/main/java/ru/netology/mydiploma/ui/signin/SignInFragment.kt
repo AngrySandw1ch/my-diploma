@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_sign_in.*
 import ru.netology.mydiploma.R
 import ru.netology.mydiploma.auth.AppAuth
@@ -16,9 +17,13 @@ import ru.netology.mydiploma.ui.AppActivity
 import ru.netology.mydiploma.util.AndroidUtils
 import ru.netology.mydiploma.util.showToast
 import ru.netology.mydiploma.viewmodel.SignInViewModel
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class SignInFragment : Fragment() {
     lateinit var binding: FragmentSignInBinding
+    @Inject
+    lateinit var auth: AppAuth
     private val viewModel: SignInViewModel by viewModels()
     private var appActivity: AppActivity? = null
 
@@ -40,7 +45,6 @@ class SignInFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentSignInBinding.inflate(inflater, container, false)
-
 
         binding.newUserLogin.requestFocus()
 
@@ -64,7 +68,7 @@ class SignInFragment : Fragment() {
 
         viewModel.data.observe(viewLifecycleOwner) {
             if (it.id != 0L && it.token != null) {
-                AppAuth.getInstance().setAuth(it.id, it.token)
+                auth.setAuth(it.id, it.token)
                 appActivity?.supportActionBar?.show()
                 findNavController().navigate(R.id.action_signInFragment_to_feedFragment)
                 AndroidUtils.hideKeyboard(requireView())

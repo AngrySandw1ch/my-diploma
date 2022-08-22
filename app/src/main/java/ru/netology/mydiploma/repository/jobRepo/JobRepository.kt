@@ -7,6 +7,6 @@ interface JobRepository {
     val data: LiveData<List<Job>>
     suspend fun getUserJobs(id: Long)
     suspend fun getCurrentUserJobs()
-    suspend fun saveJob(job: Job)
+    suspend fun saveJob(job: Job, userId: Long)
     suspend fun removeJob(id: Long)
 }

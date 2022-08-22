@@ -1,22 +1,21 @@
 package ru.netology.mydiploma.viewmodel
 
-import android.app.Application
-import android.content.Context
 import androidx.lifecycle.*
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import okhttp3.ResponseBody
-import ru.netology.mydiploma.api.AuthApi
-import ru.netology.mydiploma.auth.AppAuth
+import ru.netology.mydiploma.api.AuthApiService
 import ru.netology.mydiploma.auth.AuthState
 import java.lang.Exception
+import javax.inject.Inject
 
-class SignInViewModel(application: Application) : AndroidViewModel(application) {
+@HiltViewModel
+class SignInViewModel @Inject constructor(private val authApiService: AuthApiService) : ViewModel() {
     private val _data = MutableLiveData(AuthState())
     val data: LiveData<AuthState> get() = _data
 
     fun signIn(login: String, pass: String, name: String) = viewModelScope.launch {
         try {
-            val response = AuthApi.service.registration(login, pass, name)
+            val response = authApiService.registration(login, pass, name)
             if (!response.isSuccessful) {
                 throw Exception("${response.code()} ${response.message()}")
             }

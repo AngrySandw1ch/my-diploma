@@ -5,7 +5,7 @@ import androidx.lifecycle.map
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okio.IOException
-import ru.netology.mydiploma.api.EventApi
+import ru.netology.mydiploma.api.EventApiService
 import ru.netology.mydiploma.dto.Attachment
 import ru.netology.mydiploma.dto.Event
 import ru.netology.mydiploma.dto.Media
@@ -18,8 +18,12 @@ import ru.netology.mydiploma.roomdb.dao.EventDao
 import ru.netology.mydiploma.roomdb.entity.EventEntity
 import ru.netology.mydiploma.roomdb.entity.fromEntity
 import ru.netology.mydiploma.roomdb.entity.toEntity
+import javax.inject.Inject
 
-class EventRepositoryImpl(private val dao: EventDao): EventRepository {
+class EventRepositoryImpl @Inject constructor(
+    private val dao: EventDao,
+    private val eventApiService: EventApiService
+    ): EventRepository {
 
     override val data: LiveData<List<Event>> = dao.getEvents().map{ eventEntityList->
         eventEntityList.fromEntity()
@@ -27,7 +31,7 @@ class EventRepositoryImpl(private val dao: EventDao): EventRepository {
 
     override suspend fun getEvents() {
         try {
-            val response = EventApi.service.getEvents()
+            val response = eventApiService.getEvents()
             if (!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())
             }
@@ -42,7 +46,7 @@ class EventRepositoryImpl(private val dao: EventDao): EventRepository {
 
     override suspend fun likeEvent(id: Long) {
         try {
-            val response = EventApi.service.likeEventById(id)
+            val response = eventApiService.likeEventById(id)
             if (!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())
             }
@@ -57,7 +61,7 @@ class EventRepositoryImpl(private val dao: EventDao): EventRepository {
 
     override suspend fun dislikeEvent(id: Long) {
         try {
-            val response = EventApi.service.dislikeEventById(id)
+            val response = eventApiService.dislikeEventById(id)
             if (!response.isSuccessful) {
                 throw Exception("${response.code()} ${response.message()}")
             }
@@ -72,7 +76,7 @@ class EventRepositoryImpl(private val dao: EventDao): EventRepository {
 
     override suspend fun joinEvent(id: Long) {
         try {
-            val response = EventApi.service.joinEventById(id)
+            val response = eventApiService.joinEventById(id)
             if (!response.isSuccessful) {
                 throw Exception("${response.code()} ${response.message()}")
             }
@@ -87,7 +91,7 @@ class EventRepositoryImpl(private val dao: EventDao): EventRepository {
 
     override suspend fun leaveEvent(id: Long) {
         try {
-            val response = EventApi.service.leaveEventById(id)
+            val response = eventApiService.leaveEventById(id)
             if (!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())
             }
@@ -102,7 +106,7 @@ class EventRepositoryImpl(private val dao: EventDao): EventRepository {
 
     override suspend fun removeEvent(id: Long) {
         try {
-            val response = EventApi.service.removeEventById(id)
+            val response = eventApiService.removeEventById(id)
             if (!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())
             }
@@ -119,7 +123,7 @@ class EventRepositoryImpl(private val dao: EventDao): EventRepository {
 
     override suspend fun save(event: Event) {
         try {
-            val response = EventApi.service.saveEvent(event)
+            val response = eventApiService.saveEvent(event)
             if(!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())
             }
@@ -150,7 +154,7 @@ class EventRepositoryImpl(private val dao: EventDao): EventRepository {
                 upload.file.name,
                 upload.file.asRequestBody()
             )
-            val response = EventApi.service.upload(media)
+            val response = eventApiService.upload(media)
             if (!response.isSuccessful) {
                 throw  ApiError(response.code(), response.message())
             }

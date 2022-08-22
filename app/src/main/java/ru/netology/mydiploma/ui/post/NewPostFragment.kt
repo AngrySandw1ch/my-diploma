@@ -13,6 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.constant.ImageProvider
+import dagger.hilt.android.AndroidEntryPoint
 import ru.netology.mydiploma.databinding.FragmentNewPostBinding
 import ru.netology.mydiploma.util.AndroidUtils
 import ru.netology.mydiploma.util.showSnack
@@ -20,11 +21,10 @@ import ru.netology.mydiploma.viewmodel.PostViewModel
 
 const val MAX_SIZE = 2048
 
+@AndroidEntryPoint
 class NewPostFragment : Fragment() {
 
-    private val viewModel: PostViewModel by viewModels(
-        ownerProducer = ::requireParentFragment
-    )
+    private val viewModel: PostViewModel by viewModels()
 
     private lateinit var binding: FragmentNewPostBinding
 

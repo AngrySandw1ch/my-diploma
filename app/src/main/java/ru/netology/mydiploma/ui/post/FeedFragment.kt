@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.divider.MaterialDividerItemDecoration
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import ru.netology.mydiploma.R
 import ru.netology.mydiploma.adapter.OnInteractionListener
 import ru.netology.mydiploma.adapter.PostAdapter
@@ -18,15 +18,12 @@ import ru.netology.mydiploma.dto.Post
 import ru.netology.mydiploma.viewmodel.AuthViewModel
 import ru.netology.mydiploma.viewmodel.PostViewModel
 
+@AndroidEntryPoint
 class FeedFragment : Fragment() {
     lateinit var binding: FragmentFeedBinding
-    private val viewModel: PostViewModel by viewModels(
-        ownerProducer = ::requireParentFragment
-    )
+    private val viewModel: PostViewModel by viewModels()
 
-    private val authViewModel: AuthViewModel by viewModels(
-        ownerProducer = ::requireParentFragment
-    )
+    private val authViewModel: AuthViewModel by viewModels()
 
     companion object {
         const val EDIT_POST_CONTENT_KEY = "edit text"

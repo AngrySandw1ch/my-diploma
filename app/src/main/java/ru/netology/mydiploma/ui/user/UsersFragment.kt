@@ -8,12 +8,13 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.divider.MaterialDividerItemDecoration
+import dagger.hilt.android.AndroidEntryPoint
 import ru.netology.mydiploma.R
 import ru.netology.mydiploma.adapter.UserAdapter
 import ru.netology.mydiploma.databinding.FragmentUsersBinding
 import ru.netology.mydiploma.viewmodel.UserViewModel
 
+@AndroidEntryPoint
 class UsersFragment : Fragment() {
 
     lateinit var binding: FragmentUsersBinding

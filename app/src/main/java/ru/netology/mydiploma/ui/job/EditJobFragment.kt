@@ -7,26 +7,23 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import ru.netology.mydiploma.R
 import ru.netology.mydiploma.databinding.FragmentEditJobBinding
 import ru.netology.mydiploma.dto.Job
-import ru.netology.mydiploma.dto.User
 import ru.netology.mydiploma.ui.user.UserDetailsFragment.Companion.JOB_KEY
-import ru.netology.mydiploma.ui.user.UsersFragment
 import ru.netology.mydiploma.ui.user.UsersFragment.Companion.USER_ID_KEY
 import ru.netology.mydiploma.util.FormatUtils
-import ru.netology.mydiploma.util.ViewModelFactory
 import ru.netology.mydiploma.util.setDate
 import ru.netology.mydiploma.viewmodel.JobViewModel
 import java.util.*
 
+@AndroidEntryPoint
 class EditJobFragment : Fragment() {
 
     lateinit var binding: FragmentEditJobBinding
     private var calendar: Calendar? = null
-    private val viewModel: JobViewModel by viewModels {
-        ViewModelFactory(arguments?.getLong(USER_ID_KEY), requireActivity().application)
-    }
+    private val viewModel: JobViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,6 +32,7 @@ class EditJobFragment : Fragment() {
         binding = FragmentEditJobBinding.inflate(inflater, container, false)
 
         val job: Job? = arguments?.getParcelable(JOB_KEY)
+        val userId: Long? = arguments?.getLong(USER_ID_KEY)
         calendar = Calendar.getInstance()
 
         with(binding) {
@@ -61,8 +59,10 @@ class EditJobFragment : Fragment() {
 
             if (binding.editChooseFinish.text.toString() == getString(R.string.finish)) viewModel.changeFinish()
 
-            viewModel.save()
-            viewModel.refreshJobs()
+            userId?.let {
+                viewModel.save(it)
+                viewModel.refreshJobs(it)
+            }
             findNavController().navigateUp()
         }
 

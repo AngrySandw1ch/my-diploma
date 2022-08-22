@@ -2,7 +2,9 @@ package ru.netology.mydiploma.viewmodel
 
 import android.app.Application
 import android.net.Uri
+import android.view.View
 import androidx.lifecycle.*
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import ru.netology.mydiploma.auth.AppAuth
 import ru.netology.mydiploma.dto.Event
@@ -16,6 +18,7 @@ import ru.netology.mydiploma.roomdb.AppDb
 import java.io.File
 import java.time.Clock
 import java.time.Instant
+import javax.inject.Inject
 
 private val emptyEvent = Event(
     0,
@@ -29,10 +32,14 @@ private val emptyEvent = Event(
     EventType.OFFLINE
 )
 
-class EventViewModel(application: Application) : AndroidViewModel(application) {
-    private val repository: EventRepository = EventRepositoryImpl(AppDb.getInstance(application).eventDao())
+@HiltViewModel
+class EventViewModel @Inject constructor(
+    private val auth: AppAuth,
+    eventRepository: EventRepository
+) : ViewModel() {
+    private val repository: EventRepository = eventRepository
     val data: LiveData<List<Event>>
-        get() = AppAuth.getInstance().authLiveData.switchMap { (myId, _) ->
+        get() = auth.authLiveData.switchMap { (myId, _) ->
             repository.data.map { events ->
                 events.map {
                     it.copy(ownedByMe = it.authorId == myId)

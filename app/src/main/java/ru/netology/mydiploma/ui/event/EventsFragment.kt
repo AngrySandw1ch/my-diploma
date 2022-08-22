@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import ru.netology.mydiploma.R
 import ru.netology.mydiploma.adapter.EventAdapter
 import ru.netology.mydiploma.adapter.OnEventInteractionListener
@@ -16,14 +17,11 @@ import ru.netology.mydiploma.dto.Event
 import ru.netology.mydiploma.viewmodel.AuthViewModel
 import ru.netology.mydiploma.viewmodel.EventViewModel
 
+@AndroidEntryPoint
 class EventsFragment : Fragment() {
 
-    private val viewModel: EventViewModel by viewModels(
-        ownerProducer = ::requireParentFragment
-    )
-    private val authViewModel: AuthViewModel by viewModels(
-        ownerProducer = ::requireParentFragment
-    )
+    private val viewModel: EventViewModel by viewModels()
+    private val authViewModel: AuthViewModel by viewModels()
     lateinit var binding: FragmentEventsBinding
 
     companion object {

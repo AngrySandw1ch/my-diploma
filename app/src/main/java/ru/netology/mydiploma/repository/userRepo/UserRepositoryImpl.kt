@@ -1,16 +1,19 @@
 package ru.netology.mydiploma.repository.userRepo
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
-import ru.netology.mydiploma.api.UserApi
+import ru.netology.mydiploma.api.UserApiService
 import ru.netology.mydiploma.dto.User
 import ru.netology.mydiploma.roomdb.dao.UserDao
 import ru.netology.mydiploma.roomdb.entity.UserEntity
 import ru.netology.mydiploma.roomdb.entity.fromEntity
 import ru.netology.mydiploma.roomdb.entity.toEntity
+import javax.inject.Inject
 
-class UserRepositoryImpl(private val dao: UserDao) : UserRepository {
+class UserRepositoryImpl @Inject constructor(
+    private val dao: UserDao,
+    private val userApiService: UserApiService
+    ) : UserRepository {
 
     override val data: LiveData<List<User>> = dao.getUsers().map { userEntityList ->
         userEntityList.fromEntity()
@@ -18,7 +21,7 @@ class UserRepositoryImpl(private val dao: UserDao) : UserRepository {
 
     override suspend fun getUsers() {
         try {
-            val response = UserApi.service.getUsers()
+            val response = userApiService.getUsers()
             if (!response.isSuccessful) {
                 throw Exception("${response.code()} ${response.message()}")
             }
@@ -28,20 +31,5 @@ class UserRepositoryImpl(private val dao: UserDao) : UserRepository {
         } catch (e: Exception) {
             e.printStackTrace()
         }
-    }
-
-    override suspend fun getUserById(id: Long): User {
-        try {
-            val response = UserApi.service.getUserById(id)
-            if (!response.isSuccessful) {
-                throw Exception("${response.code()} ${response.message()}")
-            }
-            val body =
-                response.body() ?: throw Exception("${response.code()} ${response.message()}")
-            dao.insert(UserEntity.fromDto(body))
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        return dao.getUserById(id).toDto()
     }
 }

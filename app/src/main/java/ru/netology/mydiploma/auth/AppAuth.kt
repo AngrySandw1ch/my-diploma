@@ -3,9 +3,17 @@ package ru.netology.mydiploma.auth
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import dagger.hilt.EntryPoint
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
+import ru.netology.mydiploma.api.AuthApiService
 import java.lang.IllegalStateException
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class AppAuth private constructor(context: Context) {
+@Singleton
+class AppAuth @Inject constructor(@ApplicationContext private val context: Context) {
 
     private val prefs = context.getSharedPreferences("auth", Context.MODE_PRIVATE)
     private val idKey = "id"
@@ -49,21 +57,10 @@ class AppAuth private constructor(context: Context) {
         }
     }
 
-    companion object {
-        @Volatile
-        private var instance: AppAuth? = null
-
-        fun getInstance() = synchronized(this) {
-            instance ?: throw IllegalStateException("AppAuth is not initialized")
-        }
-
-        fun initApp(context: Context) = instance ?: synchronized(this) {
-            instance ?: buildAuth(context).also {
-                instance = it
-            }
-        }
-
-        private fun buildAuth(context: Context) = AppAuth(context)
+    @InstallIn(SingletonComponent::class)
+    @EntryPoint
+    interface AuthEntryPoint {
+        fun authApiService(): AuthApiService
     }
 
 
