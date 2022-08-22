@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import ru.netology.mydiploma.R
 import ru.netology.mydiploma.databinding.FragmentEditEventBinding
 import ru.netology.mydiploma.ui.event.EventsFragment.Companion.EDIT_EVENT_CONTENT_KEY
@@ -19,12 +20,11 @@ import ru.netology.mydiploma.util.setTime
 import ru.netology.mydiploma.viewmodel.EventViewModel
 import java.util.*
 
+@AndroidEntryPoint
 class EditEventFragment : Fragment() {
 
     lateinit var binding: FragmentEditEventBinding
-    private val viewModel: EventViewModel by viewModels(
-        ownerProducer = ::requireParentFragment
-    )
+    private val viewModel: EventViewModel by viewModels()
     private var dateAndTime: Calendar? = null
 
 

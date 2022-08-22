@@ -9,31 +9,26 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import dagger.hilt.android.AndroidEntryPoint
 import ru.netology.mydiploma.R
 import ru.netology.mydiploma.adapter.JobAdapter
 import ru.netology.mydiploma.adapter.OnJobInteractionListener
-import ru.netology.mydiploma.auth.AppAuth
 import ru.netology.mydiploma.databinding.FragmentUserDetailsBinding
 import ru.netology.mydiploma.dto.Job
 import ru.netology.mydiploma.dto.User
-import ru.netology.mydiploma.error.AppError
 import ru.netology.mydiploma.ui.user.UsersFragment.Companion.USER_ID_KEY
 import ru.netology.mydiploma.ui.user.UsersFragment.Companion.USER_KEY
-import ru.netology.mydiploma.util.ViewModelFactory
 import ru.netology.mydiploma.viewmodel.AuthViewModel
 import ru.netology.mydiploma.viewmodel.JobViewModel
 
 private const val CURRENT_USER_KEY = "CURRENT_USER_KEY"
 
+@AndroidEntryPoint
 class UserDetailsFragment : Fragment() {
 
     lateinit var binding: FragmentUserDetailsBinding
-    private val jobViewModel: JobViewModel by viewModels {
-        ViewModelFactory(arguments?.getParcelable<User>(USER_KEY)?.id, requireActivity().application)
-    }
-    private val authViewModel: AuthViewModel by viewModels(
-        ownerProducer = ::requireParentFragment
-    )
+    private val jobViewModel: JobViewModel by viewModels()
+    private val authViewModel: AuthViewModel by viewModels()
 
     companion object {
         const val JOB_KEY = "JOB_KEY"
@@ -61,13 +56,19 @@ class UserDetailsFragment : Fragment() {
             }
         }
 
-        val jobAdapter = JobAdapter(object : OnJobInteractionListener{
+        user?.id?.let {
+            jobViewModel.getJobs(it)
+        }
+
+        val jobAdapter = JobAdapter(object : OnJobInteractionListener {
             override fun onEdit(job: Job) {
                 jobViewModel.edit(job)
-                findNavController().navigate(R.id.action_userDetailsFragment_to_editJobFragment, Bundle().apply {
-                    putParcelable(JOB_KEY, job)
-                    user?.id?.let { putLong(USER_ID_KEY, it) }
-                })
+                findNavController().navigate(
+                    R.id.action_userDetailsFragment_to_editJobFragment,
+                    Bundle().apply {
+                        putParcelable(JOB_KEY, job)
+                        user?.id?.let { putLong(USER_ID_KEY, it) }
+                    })
             }
 
             override fun onRemove(job: Job) {
@@ -81,7 +82,9 @@ class UserDetailsFragment : Fragment() {
         }
 
         binding.jobSwipeRefresh.setOnRefreshListener {
-            jobViewModel.refreshJobs()
+            user?.id?.let {
+                jobViewModel.refreshJobs(it)
+            }
         }
 
         binding.buttonShow.setOnClickListener {
@@ -90,7 +93,13 @@ class UserDetailsFragment : Fragment() {
 
         binding.buttonAddJob.setOnClickListener {
             jobViewModel.edit()
-            findNavController().navigate(R.id.action_userDetailsFragment_to_newJobFragment)
+            findNavController().navigate(
+                R.id.action_userDetailsFragment_to_newJobFragment,
+                Bundle().apply {
+                    user?.id?.let {
+                        putLong(USER_ID_KEY, it)
+                    }
+                })
         }
 
         jobViewModel.dataState.observe(viewLifecycleOwner) {

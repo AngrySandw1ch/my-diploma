@@ -2,38 +2,25 @@ package ru.netology.mydiploma.repository.jobRepo
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.map
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-//import androidx.lifecycle.map
 import okio.IOException
-import ru.netology.mydiploma.api.JobApi
+import ru.netology.mydiploma.api.JobApiService
 import ru.netology.mydiploma.dto.Job
 import ru.netology.mydiploma.error.ApiError
 import ru.netology.mydiploma.error.NetworkError
 import ru.netology.mydiploma.error.UnknownError
-//import ru.netology.mydiploma.roomdb.dao.JobDao
-//import ru.netology.mydiploma.roomdb.entity.JobEntity
-//import ru.netology.mydiploma.roomdb.entity.fromEntity
-//import ru.netology.mydiploma.roomdb.entity.toEntity
+import javax.inject.Inject
 
-class JobRepositoryImpl(private val userId: Long) : JobRepository {
+class JobRepositoryImpl @Inject constructor(
+    private val jobApiService: JobApiService
+    ) : JobRepository {
 
     private val _data = MutableLiveData<List<Job>>()
 
     override val data: LiveData<List<Job>> = _data
 
-    init {
-        CoroutineScope(Dispatchers.IO).launch {
-            getUserJobs(userId)
-        }
-    }
-
-
     override suspend fun getUserJobs(id: Long) {
         try {
-            val response = JobApi.service.getUserJobs(id)
+            val response = jobApiService.getUserJobs(id)
             if (!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())
             }
@@ -49,7 +36,7 @@ class JobRepositoryImpl(private val userId: Long) : JobRepository {
 
     override suspend fun getCurrentUserJobs() {
         try {
-            val response = JobApi.service.getCurrentUserJobs()
+            val response = jobApiService.getCurrentUserJobs()
             if (!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())
             }
@@ -62,9 +49,9 @@ class JobRepositoryImpl(private val userId: Long) : JobRepository {
         }
     }
 
-    override suspend fun saveJob(job: Job) {
+    override suspend fun saveJob(job: Job, userId: Long) {
         try {
-            val response = JobApi.service.saveJob(job)
+            val response = jobApiService.saveJob(job)
             if (!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())
             }
@@ -81,7 +68,7 @@ class JobRepositoryImpl(private val userId: Long) : JobRepository {
 
     override suspend fun removeJob(id: Long) {
         try {
-            val response = JobApi.service.removeJob(id)
+            val response = jobApiService.removeJob(id)
             if (!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())
             }

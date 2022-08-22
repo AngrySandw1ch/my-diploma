@@ -8,17 +8,18 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import ru.netology.mydiploma.R
 import ru.netology.mydiploma.databinding.FragmentNewJobBinding
+import ru.netology.mydiploma.ui.user.UsersFragment.Companion.USER_ID_KEY
 import ru.netology.mydiploma.util.*
 import ru.netology.mydiploma.viewmodel.JobViewModel
 import java.util.*
 
+@AndroidEntryPoint
 class NewJobFragment : Fragment() {
     lateinit var binding: FragmentNewJobBinding
-    private val viewModel: JobViewModel by viewModels {
-        ViewModelFactory(application = requireActivity().application)
-    }
+    private val viewModel: JobViewModel by viewModels()
     private var calendar: Calendar? = null
 
     companion object {
@@ -30,6 +31,8 @@ class NewJobFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        val userId: Long? = arguments?.getLong(USER_ID_KEY)
+
         binding = FragmentNewJobBinding.inflate(inflater, container, false)
 
         calendar = Calendar.getInstance()
@@ -82,7 +85,10 @@ class NewJobFragment : Fragment() {
 
             if (binding.chooseFinish.text.toString() == getString(R.string.finish)) viewModel.changeFinish()
 
-            viewModel.save()
+            userId?.let {
+                viewModel.save(it)
+            }
+
             findNavController().navigateUp()
         }
 

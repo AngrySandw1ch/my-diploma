@@ -1,12 +1,14 @@
 package ru.netology.mydiploma.viewmodel
 
-import android.app.Application
 import androidx.lifecycle.*
+import dagger.assisted.Assisted
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import ru.netology.mydiploma.auth.AppAuth
 import ru.netology.mydiploma.dto.Job
 import ru.netology.mydiploma.model.ModelState
-import ru.netology.mydiploma.repository.jobRepo.JobRepositoryImpl
+import ru.netology.mydiploma.repository.jobRepo.JobRepository
+import javax.inject.Inject
 
 val emptyJob = Job(
     id = 0,
@@ -16,8 +18,12 @@ val emptyJob = Job(
     ownerId = 0
 )
 
-class JobViewModel(private var userId: Long?, application: Application) : AndroidViewModel(application) {
-    private val repository: JobRepositoryImpl = JobRepositoryImpl(userId ?: 0L)
+@HiltViewModel
+class JobViewModel @Inject constructor(
+    jobRepository: JobRepository,
+    private val auth: AppAuth
+) : ViewModel() {
+    private val repository: JobRepository = jobRepository
 
     val data: LiveData<List<Job>> get() = repository.data
 
@@ -26,32 +32,13 @@ class JobViewModel(private var userId: Long?, application: Application) : Androi
     private val _dataState = MutableLiveData(ModelState())
     val dataState: LiveData<ModelState> get() = _dataState
 
-    init {
-        try {
-            viewModelScope.launch {
-                AppAuth.getInstance().authLiveData.value?.id?.let { myId ->
-                    _dataState.postValue(ModelState(loading = true))
-
-                    if (myId == userId) {
-                        repository.getCurrentUserJobs()
-                    } else  {
-                        userId?.let { repository.getUserJobs(it) }
-                    }
-
-                    _dataState.postValue(ModelState())
-                }
-            }
-        } catch (e: Exception) {
-            _dataState.postValue(ModelState(error = true))
-        }
-    }
-
-
-    fun save() = viewModelScope.launch {
+    fun save(userId: Long) = viewModelScope.launch {
         try {
             _dataState.postValue(ModelState(loading = true))
             edited.value?.let { job ->
-                repository.saveJob(job)
+                userId.let {
+                    repository.saveJob(job, it)
+                }
             }
             _dataState.postValue(ModelState())
             edited.postValue(emptyJob)
@@ -60,14 +47,31 @@ class JobViewModel(private var userId: Long?, application: Application) : Androi
         }
     }
 
-    fun refreshJobs() = viewModelScope.launch {
+    fun getJobs(userId: Long) {
         try {
             viewModelScope.launch {
-                AppAuth.getInstance().authLiveData.value?.id?.let { myId ->
+                auth.authLiveData.value?.id?.let { myId ->
                     _dataState.postValue(ModelState(refreshing = true))
                     when (myId == userId) {
                         true -> repository.getCurrentUserJobs()
-                        false -> userId?.let { repository.getUserJobs(it) }
+                        false -> userId.let { repository.getUserJobs(it) }
+                    }
+                    _dataState.postValue(ModelState())
+                }
+            }
+        } catch (e: Exception) {
+            _dataState.postValue(ModelState(error = true))
+        }
+    }
+
+    fun refreshJobs(userId: Long) = viewModelScope.launch {
+        try {
+            viewModelScope.launch {
+                auth.authLiveData.value?.id?.let { myId ->
+                    _dataState.postValue(ModelState(refreshing = true))
+                    when (myId == userId) {
+                        true -> repository.getCurrentUserJobs()
+                        false -> userId.let { repository.getUserJobs(it) }
                     }
                     _dataState.postValue(ModelState())
                 }

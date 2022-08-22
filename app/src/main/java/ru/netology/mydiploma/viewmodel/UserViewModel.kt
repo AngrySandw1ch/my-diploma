@@ -1,16 +1,19 @@
 package ru.netology.mydiploma.viewmodel
 
-import android.app.Application
 import androidx.lifecycle.*
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import ru.netology.mydiploma.dto.User
 import ru.netology.mydiploma.model.ModelState
-import ru.netology.mydiploma.repository.userRepo.UserRepositoryImpl
-import ru.netology.mydiploma.roomdb.AppDb
+import ru.netology.mydiploma.repository.userRepo.UserRepository
 import java.lang.Exception
+import javax.inject.Inject
 
-class UserViewModel(application: Application): AndroidViewModel(application) {
-    private val repository = UserRepositoryImpl(AppDb.getInstance(application).userDao())
+@HiltViewModel
+class UserViewModel @Inject constructor(
+    userRepository: UserRepository
+): ViewModel() {
+    private val repository = userRepository
     val data: LiveData<List<User>> get() = repository.data
 
     private val _dataState: MutableLiveData<ModelState> = MutableLiveData()
@@ -37,20 +40,5 @@ class UserViewModel(application: Application): AndroidViewModel(application) {
         catch (e: Exception) {
             _dataState.postValue(ModelState(error = true))
         }
-    }
-
-    fun getUserById(id: Long): User {
-        viewModelScope.launch {
-            try {
-                _dataState.postValue(ModelState(loading = true))
-                repository.getUserById(id)
-                _dataState.postValue(ModelState())
-            } catch (e: Exception) {
-                _dataState.postValue(ModelState(error = true))
-            }
-        }
-        return data.value?.first {
-            it.id == id
-        } ?: throw Exception("Empty data value")
     }
 }
