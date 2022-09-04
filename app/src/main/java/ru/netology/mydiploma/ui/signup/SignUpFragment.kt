@@ -12,8 +12,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import ru.netology.mydiploma.R
 import ru.netology.mydiploma.auth.AppAuth
 import ru.netology.mydiploma.databinding.FragmentSignUpBinding
-import ru.netology.mydiploma.ui.AppActivity
+import ru.netology.mydiploma.ui.AppBarController
 import ru.netology.mydiploma.util.AndroidUtils
+import ru.netology.mydiploma.util.hideAppBar
+import ru.netology.mydiploma.util.showAppBar
 import ru.netology.mydiploma.util.showToast
 import ru.netology.mydiploma.viewmodel.SignUpViewModel
 import javax.inject.Inject
@@ -24,18 +26,15 @@ class SignUpFragment : Fragment() {
     @Inject
     lateinit var auth: AppAuth
     private val viewModel: SignUpViewModel by viewModels()
-    private var appActivity: AppActivity? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        appActivity = context as? AppActivity
-        appActivity?.supportActionBar?.hide()
+        hideAppBar()
     }
 
     override fun onDetach() {
         super.onDetach()
-        appActivity?.supportActionBar?.show()
-        appActivity = null
+        showAppBar()
     }
 
     override fun onCreateView(
@@ -62,6 +61,7 @@ class SignUpFragment : Fragment() {
         viewModel.data.observe(viewLifecycleOwner) {
             if (it.id != 0L && it.token != null) {
                 auth.setAuth(it.id, it.token)
+                showAppBar()
                 findNavController().navigate(R.id.action_signUpFragment_to_feedFragment)
                 AndroidUtils.hideKeyboard(requireView())
             }

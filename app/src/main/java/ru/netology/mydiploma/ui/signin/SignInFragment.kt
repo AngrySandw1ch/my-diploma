@@ -14,7 +14,10 @@ import ru.netology.mydiploma.R
 import ru.netology.mydiploma.auth.AppAuth
 import ru.netology.mydiploma.databinding.FragmentSignInBinding
 import ru.netology.mydiploma.ui.AppActivity
+import ru.netology.mydiploma.ui.AppBarController
 import ru.netology.mydiploma.util.AndroidUtils
+import ru.netology.mydiploma.util.hideAppBar
+import ru.netology.mydiploma.util.showAppBar
 import ru.netology.mydiploma.util.showToast
 import ru.netology.mydiploma.viewmodel.SignInViewModel
 import javax.inject.Inject
@@ -25,19 +28,15 @@ class SignInFragment : Fragment() {
     @Inject
     lateinit var auth: AppAuth
     private val viewModel: SignInViewModel by viewModels()
-    private var appActivity: AppActivity? = null
-
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        appActivity = context as? AppActivity
-        appActivity?.supportActionBar?.hide()
+        hideAppBar()
     }
 
     override fun onDetach() {
         super.onDetach()
-        appActivity?.supportActionBar?.show()
-        appActivity = null
+        showAppBar()
     }
 
     override fun onCreateView(
@@ -46,7 +45,7 @@ class SignInFragment : Fragment() {
     ): View {
         binding = FragmentSignInBinding.inflate(inflater, container, false)
 
-        binding.newUserLogin.requestFocus()
+        binding.newUserName.requestFocus()
 
         binding.signInButton.setOnClickListener {
             with(binding) {
@@ -69,7 +68,7 @@ class SignInFragment : Fragment() {
         viewModel.data.observe(viewLifecycleOwner) {
             if (it.id != 0L && it.token != null) {
                 auth.setAuth(it.id, it.token)
-                appActivity?.supportActionBar?.show()
+                showAppBar()
                 findNavController().navigate(R.id.action_signInFragment_to_feedFragment)
                 AndroidUtils.hideKeyboard(requireView())
             }

@@ -7,43 +7,59 @@
     android:padding="@dimen/ordinary_padding"
     tools:context=".ui.signin.SignInFragment">
 
-    <EditText
-        android:id="@+id/new_user_name"
-        android:layout_width="wrap_content"
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:layout_marginTop="@dimen/margin_top_auth"
-        android:ems="10"
-        android:hint="@string/user_name"
-        android:inputType="text"
-        android:textColorLink="@color/blue"
-        android:textCursorDrawable="@color/blue"
-        android:textStyle="italic" />
+        android:hint="@string/user_name">
 
-    <EditText
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/new_user_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="text"
+            android:textColorLink="@color/blue"
+            android:textCursorDrawable="@color/blue" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+<com.google.android.material.textfield.TextInputLayout
+    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:hint="@string/login">
+
+    <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/new_user_login"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="@dimen/margin_vertical_small"
         android:ems="10"
-        android:hint="@string/login"
         android:inputType="text"
         android:textColorLink="@color/blue"
-        android:textCursorDrawable="@color/blue"
-        android:textStyle="italic" />
-
-    <EditText
-        android:id="@+id/new_user_password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="@dimen/margin_vertical_small"
-        android:ems="10"
-        android:inputType="textPassword"
-        android:hint="@string/password"
-        android:textColorLink="@color/blue"
+        android:imeOptions="actionNext"
         android:textCursorDrawable="@color/blue" />
+</com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/password">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/new_user_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_vertical_small"
+            android:ems="10"
+            android:imeOptions="actionDone"
+            android:inputType="textPassword"
+            android:textColorLink="@color/blue"
+            android:textCursorDrawable="@color/blue" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/signIn_button"
@@ -53,6 +69,5 @@
         android:layout_marginTop="@dimen/margin_vertical_large"
         android:backgroundTint="@color/blue"
         android:text="@string/signIn" />
-
 
 </LinearLayout>

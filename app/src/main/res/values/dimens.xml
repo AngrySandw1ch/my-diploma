@@ -3,7 +3,7 @@
     <!--Layout config-->
     <dimen name="ordinary_padding">16dp</dimen>
     <dimen name="ordinary_margin">16dp</dimen>
-    <dimen name="margin_top_auth">200dp</dimen>
+    <dimen name="margin_top_auth">150dp</dimen>
     <dimen name="margin_vertical_small">5dp</dimen>
     <dimen name="margin_vertical_large">20dp</dimen>
     <dimen name="margin_horizontal_small">5dp</dimen>

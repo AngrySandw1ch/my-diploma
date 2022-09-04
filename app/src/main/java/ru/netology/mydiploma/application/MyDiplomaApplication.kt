@@ -9,4 +9,11 @@ import javax.inject.Inject
 class MyDiplomaApplication: Application() {
     @Inject
     lateinit var appAuth: AppAuth
+
+    override fun onCreate() {
+        super.onCreate()
+        setupAuth()
+    }
+
+    private fun setupAuth() = appAuth.sendPushToken()
 }
