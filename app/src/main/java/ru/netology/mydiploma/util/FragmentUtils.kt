@@ -5,6 +5,7 @@ import android.app.TimePickerDialog
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
+import ru.netology.mydiploma.ui.AppBarController
 import java.util.*
 
 fun Fragment.showSnack(message: String) {
@@ -44,4 +45,12 @@ fun Fragment.setDate(calendar: Calendar?, initDate: () -> Unit) {
             cal.get(Calendar.DAY_OF_MONTH)
         ).show()
     }
+}
+
+fun Fragment.showAppBar() {
+    (requireActivity() as AppBarController).show()
+}
+
+fun Fragment.hideAppBar() {
+    (requireActivity() as AppBarController).hide()
 }

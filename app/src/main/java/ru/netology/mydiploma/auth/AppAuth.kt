@@ -3,12 +3,19 @@ package ru.netology.mydiploma.auth
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.ktx.messaging
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
+import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import ru.netology.mydiploma.api.AuthApiService
-import java.lang.IllegalStateException
+import ru.netology.mydiploma.dto.PushToken
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -35,6 +42,7 @@ class AppAuth @Inject constructor(@ApplicationContext private val context: Conte
         } else {
             _authLiveData.value = AuthState(id, token)
         }
+        sendPushToken()
     }
 
 
@@ -46,6 +54,7 @@ class AppAuth @Inject constructor(@ApplicationContext private val context: Conte
             putString(tokenKey, token)
             apply()
         }
+        sendPushToken()
     }
 
     @Synchronized
@@ -55,12 +64,33 @@ class AppAuth @Inject constructor(@ApplicationContext private val context: Conte
             clear()
             commit()
         }
+        sendPushToken()
     }
 
     @InstallIn(SingletonComponent::class)
     @EntryPoint
     interface AuthEntryPoint {
         fun authApiService(): AuthApiService
+    }
+
+
+    fun sendPushToken(token: String? = null) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val pushToken = PushToken(token ?: Firebase.messaging.token.await())
+                getAuthApiService(context).savePushToken(pushToken)
+            } catch (e:Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    private fun getAuthApiService(context: Context): AuthApiService {
+        val hiltEntryPoint = EntryPointAccessors.fromApplication(
+            context,
+            AuthEntryPoint::class.java
+        )
+        return hiltEntryPoint.authApiService()
     }
 
 
